@@ -1,0 +1,15 @@
+version: '2'
+services:
+    alain-app:
+        image: alain
+        environment:
+            - _JAVA_OPTIONS=-Xmx512m -Xms256m
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:mysql://alain-mysql:3306/alain?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+        ports:
+            - 8080:8080
+    alain-mysql:
+        extends:
+            file: mysql.yml
+            service: alain-mysql

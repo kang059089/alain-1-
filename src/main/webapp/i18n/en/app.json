@@ -1,0 +1,23 @@
+{
+    "alainApp": {
+        "app": {
+            "home": {
+                "title": "Apps",
+                "createLabel": "Create a new App",
+                "createOrEditLabel": "Create or edit a App"
+            },
+            "created": "A new App is created with identifier {{ param }}",
+            "updated": "A App is updated with identifier {{ param }}",
+            "deleted": "A App is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete App {{ id }}?"
+            },
+            "detail": {
+                "title": "App"
+            },
+            "name": "Name",
+            "description": "Description",
+            "year": "Year"
+        }
+    }
+}

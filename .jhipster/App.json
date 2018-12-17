@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "year",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20181217011238",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "app",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

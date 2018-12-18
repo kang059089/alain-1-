@@ -58,11 +58,12 @@ public class Org implements Serializable {
     @OneToOne    @JoinColumn(unique = true)
     private DictType type;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Org> orgs = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("")
+    @JoinColumn(name = "pid")
     private Org parent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

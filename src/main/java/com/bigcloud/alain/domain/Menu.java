@@ -17,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bs_menu")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Menu implements Serializable {
+public class Menu extends AbstractAuditingEntity implements Serializable,Comparable<Menu> {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class Menu implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "i_18_n")
+    @Column(name = "i18n")
     private String i18n;
 
     @Column(name = "jhi_group")
@@ -79,14 +79,15 @@ public class Menu implements Serializable {
     @Column(name = "jhi_sort")
     private Integer sort;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Menu> menus = new HashSet<>();
-    @OneToMany(mappedBy = "menuParent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "menuParent")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Button> buttons = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("")
+    @JoinColumn(name = "pid")
     private Menu parent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -366,13 +367,11 @@ public class Menu implements Serializable {
 
     public Menu addButton(Button button) {
         this.buttons.add(button);
-        button.setMenu(this);
         return this;
     }
 
     public Menu removeButton(Button button) {
         this.buttons.remove(button);
-        button.setMenu(null);
         return this;
     }
 
@@ -393,6 +392,11 @@ public class Menu implements Serializable {
         this.parent = menu;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    @Override
+    public int compareTo(Menu menu) {
+        return sort.compareTo(menu.getSort());
+    }
 
     @Override
     public boolean equals(Object o) {

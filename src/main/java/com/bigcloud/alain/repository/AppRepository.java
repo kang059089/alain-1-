@@ -12,4 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AppRepository extends JpaRepository<App, Long> {
 
+    @Query(value = "SELECT * FROM bs_app where id = 1 ", nativeQuery = true)
+    App getApp();
 }

@@ -26,6 +26,10 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="menu_pid" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="acl" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -38,7 +42,19 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="menu_pid" type="bigint">
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="created_date" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_modified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_modified_date" type="timestamp">
                 <constraints nullable="true" />
             </column>
 

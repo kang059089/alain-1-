@@ -16,7 +16,7 @@
 
         <addForeignKeyConstraint baseColumnNames="pid"
                                  baseTableName="bs_org"
-                                 constraintName="fk_org_parent_id"
+                                 constraintName="fk_org_pid"
                                  referencedColumnNames="id"
                                  referencedTableName="bs_org"/>
 

@@ -10,7 +10,7 @@
 
         <addForeignKeyConstraint baseColumnNames="dict_pid"
                                  baseTableName="bs_dict_type"
-                                 constraintName="fk_dict_type_dict_parent_id"
+                                 constraintName="fk_dict_type_dict_pid"
                                  referencedColumnNames="id"
                                  referencedTableName="bs_dict"/>
 

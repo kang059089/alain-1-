@@ -26,7 +26,11 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="i_18_n" type="varchar(255)">
+            <column name="pid" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="i18n" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
 
@@ -94,7 +98,19 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="pid" type="bigint">
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="created_date" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_modified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_modified_date" type="timestamp">
                 <constraints nullable="true" />
             </column>
 

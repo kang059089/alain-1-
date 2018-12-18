@@ -26,6 +26,14 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="pid" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="type_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_org_type_id" />
+            </column>
+
             <column name="code" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -61,11 +69,20 @@
             <column name="jhi_sort" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="type_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_org_type_id" />
+
+            <column name="created_by" type="varchar(255)">
+                <constraints nullable="true" />
             </column>
 
-            <column name="pid" type="bigint">
+            <column name="created_date" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_modified_by" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="last_modified_date" type="timestamp">
                 <constraints nullable="true" />
             </column>
 

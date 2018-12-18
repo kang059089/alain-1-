@@ -10,7 +10,7 @@
 
         <addForeignKeyConstraint baseColumnNames="pid"
                                  baseTableName="bs_menu"
-                                 constraintName="fk_menu_parent_id"
+                                 constraintName="fk_menu_pid"
                                  referencedColumnNames="id"
                                  referencedTableName="bs_menu"/>
 

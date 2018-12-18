@@ -54,7 +54,7 @@ public class UserJWTController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         User user = userRepository.findByLogin(loginVM.getUsername());
-        return new ResponseEntity<>(new UserToken(user.getLastName(), user.getImageUrl(), user.getEmail(),jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new UserToken(user,jwt), httpHeaders, HttpStatus.OK);
     }
 
     /**
@@ -79,44 +79,21 @@ public class UserJWTController {
     }
 
     static class UserToken{
-        @JsonProperty("name")
-        private String name;
-        @JsonProperty("avatar")
-        private String avatar;
-        @JsonProperty("email")
-        private String email;
-        @JsonProperty("token")
+        @JsonProperty("user")
+        private User user;
         private String token;
 
-        UserToken(String name, String avatar, String email, String token) {
-            this.name = name;
-            this.avatar = avatar;
-            this.email = email;
-            this.token = token;
+        UserToken(User user, String jwt) {
+            this.user = user;
+            this.token = jwt;
         }
 
-        public String getName() {
-            return name;
+        public User getUser() {
+            return user;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getAvatar() {
-            return avatar;
-        }
-
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
+        public void setUser(User user) {
+            this.user = user;
         }
 
         public String getToken() {

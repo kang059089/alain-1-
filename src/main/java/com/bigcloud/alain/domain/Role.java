@@ -31,11 +31,12 @@ public class Role implements Serializable {
     @Column(name = "acl")
     private String acl;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Role> roles = new HashSet<>();
     @ManyToOne
     @JsonIgnoreProperties("")
+    @JoinColumn(name = "pid")
     private Role parent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

@@ -34,6 +34,7 @@ public class DictType implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("")
+    @JoinColumn(name = "dict_pid")
     private Dict dictParent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

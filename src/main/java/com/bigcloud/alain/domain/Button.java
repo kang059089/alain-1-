@@ -36,11 +36,8 @@ public class Button implements Serializable {
     private Integer sort;
 
     @ManyToOne
-    @JsonIgnoreProperties("buttons")
-    private Menu menu;
-
-    @ManyToOne
     @JsonIgnoreProperties("")
+    @JoinColumn(name = "menu_pid")
     private Menu menuParent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -102,19 +99,6 @@ public class Button implements Serializable {
 
     public void setSort(Integer sort) {
         this.sort = sort;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public Button menu(Menu menu) {
-        this.menu = menu;
-        return this;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
     }
 
     public Menu getMenuParent() {

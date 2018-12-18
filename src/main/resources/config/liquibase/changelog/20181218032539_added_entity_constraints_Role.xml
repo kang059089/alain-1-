@@ -10,7 +10,7 @@
 
         <addForeignKeyConstraint baseColumnNames="pid"
                                  baseTableName="bs_role"
-                                 constraintName="fk_role_parent_id"
+                                 constraintName="fk_role_pid"
                                  referencedColumnNames="id"
                                  referencedTableName="bs_role"/>
 

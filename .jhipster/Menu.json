@@ -1,0 +1,112 @@
+{
+    "name": "Menu",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "i18n",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "group",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "link",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "linkExact",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "externalLink",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "target",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "icon",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "badge",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "badgeDot",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "badgeStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "hide",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "hideInBreadcrumb",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "acl",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shortcut",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "shortcuRoot",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "reuse",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "sort",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "menu",
+            "otherEntityName": "menu",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "menu",
+            "otherEntityName": "menu",
+            "otherEntityRelationshipName": "menu"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "button",
+            "otherEntityName": "button",
+            "otherEntityRelationshipName": "menu"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "parent",
+            "otherEntityName": "menu",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20181218032534",
+    "entityTableName": "menu",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

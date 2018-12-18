@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity Menu.
+    -->
+    <changeSet id="20181218032534-1" author="jhipster">
+        <createTable tableName="bs_menu">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="i_18_n" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="jhi_group" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="jhi_link" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="link_exact" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="external_link" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="target" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="icon" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="badge" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="badge_dot" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="badge_status" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="hide" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="hide_in_breadcrumb" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="acl" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="shortcut" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="shortcu_root" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="jhi_reuse" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="jhi_sort" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="pid" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
+        </createTable>
+        
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
+</databaseChangeLog>

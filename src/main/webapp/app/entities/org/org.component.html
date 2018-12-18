@@ -1,0 +1,90 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="alainApp.org.home.title">Orgs</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-org" [routerLink]="['/org/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="alainApp.org.home.createLabel">
+            Create new Org
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="orgs">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="name"><span jhiTranslate="alainApp.org.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="code"><span jhiTranslate="alainApp.org.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="telephone"><span jhiTranslate="alainApp.org.telephone">Telephone</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="fax"><span jhiTranslate="alainApp.org.fax">Fax</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="address"><span jhiTranslate="alainApp.org.address">Address</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="longitude"><span jhiTranslate="alainApp.org.longitude">Longitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="latitude"><span jhiTranslate="alainApp.org.latitude">Latitude</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="icon"><span jhiTranslate="alainApp.org.icon">Icon</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="description"><span jhiTranslate="alainApp.org.description">Description</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sort"><span jhiTranslate="alainApp.org.sort">Sort</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="type.id"><span jhiTranslate="alainApp.org.type">Type</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="org.id"><span jhiTranslate="alainApp.org.org">Org</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="parent.id"><span jhiTranslate="alainApp.org.parent">Parent</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let org of orgs ;trackBy: trackId">
+                <td><a [routerLink]="['/org', org.id, 'view' ]">{{org.id}}</a></td>
+                <td>{{org.name}}</td>
+                <td>{{org.code}}</td>
+                <td>{{org.telephone}}</td>
+                <td>{{org.fax}}</td>
+                <td>{{org.address}}</td>
+                <td>{{org.longitude}}</td>
+                <td>{{org.latitude}}</td>
+                <td>{{org.icon}}</td>
+                <td>{{org.description}}</td>
+                <td>{{org.sort}}</td>
+                <td>
+                    <div *ngIf="org.type">
+                        <a [routerLink]="['../dict-type', org.type?.id, 'view' ]" >{{org.type?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="org.org">
+                        <a [routerLink]="['../org', org.org?.id, 'view' ]" >{{org.org?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="org.parent">
+                        <a [routerLink]="['../org', org.parent?.id, 'view' ]" >{{org.parent?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/org', org.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/org', org.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'org/'+ org.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="dictType">
+            <h2><span jhiTranslate="alainApp.dictType.detail.title">Dict Type</span> {{dictType.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="alainApp.dictType.name">Name</span></dt>
+                <dd>
+                    <span>{{dictType.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.dictType.code">Code</span></dt>
+                <dd>
+                    <span>{{dictType.code}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.dictType.sort">Sort</span></dt>
+                <dd>
+                    <span>{{dictType.sort}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.dictType.dict">Dict</span></dt>
+                <dd>
+                    <div *ngIf="dictType.dict">
+                        <a [routerLink]="['/dict', dictType.dict?.id, 'view']">{{dictType.dict?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="alainApp.dictType.dictParent">Dict Parent</span></dt>
+                <dd>
+                    <div *ngIf="dictType.dictParent">
+                        <a [routerLink]="['/dict', dictType.dictParent?.id, 'view']">{{dictType.dictParent?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/dict-type', dictType.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

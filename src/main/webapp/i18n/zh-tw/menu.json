@@ -1,0 +1,42 @@
+{
+    "alainApp": {
+        "menu": {
+            "home": {
+                "title": "Menus",
+                "createLabel": "建立一筆新的 Menu",
+                "createOrEditLabel": "建立或編輯 Menu"
+            },
+            "created": "新的 Menu 建立成功，識別碼為 {{ param }}",
+            "updated": "識別碼為 {{ param }} 的 Menu 更新成功",
+            "deleted": "識別碼為 {{ param }} 的 Menu 刪除成功",
+            "delete": {
+                "question": "您確定要刪除 Menu {{ id }} 嗎?"
+            },
+            "detail": {
+                "title": "Menu"
+            },
+            "name": "Name",
+            "i18n": "I 18 N",
+            "group": "Group",
+            "link": "Link",
+            "linkExact": "Link Exact",
+            "externalLink": "External Link",
+            "target": "Target",
+            "icon": "Icon",
+            "badge": "Badge",
+            "badgeDot": "Badge Dot",
+            "badgeStatus": "Badge Status",
+            "hide": "Hide",
+            "hideInBreadcrumb": "Hide In Breadcrumb",
+            "acl": "Acl",
+            "shortcut": "Shortcut",
+            "shortcuRoot": "Shortcu Root",
+            "reuse": "Reuse",
+            "sort": "Sort",
+            "menu": "Menu",
+            "menu": "Menu",
+            "button": "Button",
+            "parent": "Parent"
+        }
+    }
+}

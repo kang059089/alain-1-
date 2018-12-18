@@ -18,7 +18,7 @@
         Added the entity App.
     -->
     <changeSet id="20181217011238-1" author="jhipster">
-        <createTable tableName="app">
+        <createTable tableName="bs_app">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>

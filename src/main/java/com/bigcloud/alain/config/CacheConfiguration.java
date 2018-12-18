@@ -39,6 +39,17 @@ public class CacheConfiguration {
             cm.createCache(com.bigcloud.alain.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.bigcloud.alain.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             cm.createCache(com.bigcloud.alain.domain.App.class.getName(), jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Menu.class.getName(), jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Menu.class.getName() + ".menus", jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Menu.class.getName() + ".buttons", jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Button.class.getName(), jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Org.class.getName(), jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Org.class.getName() + ".orgs", jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Dict.class.getName(), jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Dict.class.getName() + ".dictTypes", jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.DictType.class.getName(), jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Role.class.getName(), jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.domain.Role.class.getName() + ".roles", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

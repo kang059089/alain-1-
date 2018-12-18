@@ -1,0 +1,81 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="org">
+            <h2><span jhiTranslate="alainApp.org.detail.title">Org</span> {{org.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="alainApp.org.name">Name</span></dt>
+                <dd>
+                    <span>{{org.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.code">Code</span></dt>
+                <dd>
+                    <span>{{org.code}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.telephone">Telephone</span></dt>
+                <dd>
+                    <span>{{org.telephone}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.fax">Fax</span></dt>
+                <dd>
+                    <span>{{org.fax}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.address">Address</span></dt>
+                <dd>
+                    <span>{{org.address}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.longitude">Longitude</span></dt>
+                <dd>
+                    <span>{{org.longitude}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.latitude">Latitude</span></dt>
+                <dd>
+                    <span>{{org.latitude}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.icon">Icon</span></dt>
+                <dd>
+                    <span>{{org.icon}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.description">Description</span></dt>
+                <dd>
+                    <span>{{org.description}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.sort">Sort</span></dt>
+                <dd>
+                    <span>{{org.sort}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.type">Type</span></dt>
+                <dd>
+                    <div *ngIf="org.type">
+                        <a [routerLink]="['/dict-type', org.type?.id, 'view']">{{org.type?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.org">Org</span></dt>
+                <dd>
+                    <div *ngIf="org.org">
+                        <a [routerLink]="['/org', org.org?.id, 'view']">{{org.org?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="alainApp.org.parent">Parent</span></dt>
+                <dd>
+                    <div *ngIf="org.parent">
+                        <a [routerLink]="['/org', org.parent?.id, 'view']">{{org.parent?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/org', org.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

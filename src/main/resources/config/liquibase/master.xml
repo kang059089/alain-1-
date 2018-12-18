@@ -6,6 +6,17 @@
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20181217011238_added_entity_App.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032534_added_entity_Menu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032535_added_entity_Button.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032536_added_entity_Org.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032537_added_entity_Dict.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032538_added_entity_DictType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032539_added_entity_Role.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20181218032534_added_entity_constraints_Menu.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032535_added_entity_constraints_Button.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032536_added_entity_constraints_Org.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032538_added_entity_constraints_DictType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181218032539_added_entity_constraints_Role.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

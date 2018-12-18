@@ -1,0 +1,43 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="role">
+            <h2><span jhiTranslate="alainApp.role.detail.title">Role</span> {{role.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="alainApp.role.name">Name</span></dt>
+                <dd>
+                    <span>{{role.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.role.acl">Acl</span></dt>
+                <dd>
+                    <span>{{role.acl}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.role.role">Role</span></dt>
+                <dd>
+                    <div *ngIf="role.role">
+                        <a [routerLink]="['/role', role.role?.id, 'view']">{{role.role?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="alainApp.role.parent">Parent</span></dt>
+                <dd>
+                    <div *ngIf="role.parent">
+                        <a [routerLink]="['/role', role.parent?.id, 'view']">{{role.parent?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/role', role.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

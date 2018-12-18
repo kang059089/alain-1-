@@ -1,0 +1,100 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="alainApp.menu.home.title">Menus</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-menu" [routerLink]="['/menu/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="alainApp.menu.home.createLabel">
+            Create new Menu
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="menus">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="name"><span jhiTranslate="alainApp.menu.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="i18n"><span jhiTranslate="alainApp.menu.i18n">I 18 N</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="group"><span jhiTranslate="alainApp.menu.group">Group</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="link"><span jhiTranslate="alainApp.menu.link">Link</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="linkExact"><span jhiTranslate="alainApp.menu.linkExact">Link Exact</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="externalLink"><span jhiTranslate="alainApp.menu.externalLink">External Link</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="target"><span jhiTranslate="alainApp.menu.target">Target</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="icon"><span jhiTranslate="alainApp.menu.icon">Icon</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="badge"><span jhiTranslate="alainApp.menu.badge">Badge</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="badgeDot"><span jhiTranslate="alainApp.menu.badgeDot">Badge Dot</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="badgeStatus"><span jhiTranslate="alainApp.menu.badgeStatus">Badge Status</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="hide"><span jhiTranslate="alainApp.menu.hide">Hide</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="hideInBreadcrumb"><span jhiTranslate="alainApp.menu.hideInBreadcrumb">Hide In Breadcrumb</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="acl"><span jhiTranslate="alainApp.menu.acl">Acl</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shortcut"><span jhiTranslate="alainApp.menu.shortcut">Shortcut</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="shortcuRoot"><span jhiTranslate="alainApp.menu.shortcuRoot">Shortcu Root</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="reuse"><span jhiTranslate="alainApp.menu.reuse">Reuse</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sort"><span jhiTranslate="alainApp.menu.sort">Sort</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="menu.id"><span jhiTranslate="alainApp.menu.menu">Menu</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="parent.id"><span jhiTranslate="alainApp.menu.parent">Parent</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let menu of menus ;trackBy: trackId">
+                <td><a [routerLink]="['/menu', menu.id, 'view' ]">{{menu.id}}</a></td>
+                <td>{{menu.name}}</td>
+                <td>{{menu.i18n}}</td>
+                <td>{{menu.group}}</td>
+                <td>{{menu.link}}</td>
+                <td>{{menu.linkExact}}</td>
+                <td>{{menu.externalLink}}</td>
+                <td>{{menu.target}}</td>
+                <td>{{menu.icon}}</td>
+                <td>{{menu.badge}}</td>
+                <td>{{menu.badgeDot}}</td>
+                <td>{{menu.badgeStatus}}</td>
+                <td>{{menu.hide}}</td>
+                <td>{{menu.hideInBreadcrumb}}</td>
+                <td>{{menu.acl}}</td>
+                <td>{{menu.shortcut}}</td>
+                <td>{{menu.shortcuRoot}}</td>
+                <td>{{menu.reuse}}</td>
+                <td>{{menu.sort}}</td>
+                <td>
+                    <div *ngIf="menu.menu">
+                        <a [routerLink]="['../menu', menu.menu?.id, 'view' ]" >{{menu.menu?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="menu.parent">
+                        <a [routerLink]="['../menu', menu.parent?.id, 'view' ]" >{{menu.parent?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/menu', menu.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/menu', menu.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'menu/'+ menu.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

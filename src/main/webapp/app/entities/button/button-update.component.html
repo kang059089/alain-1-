@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-button-heading" jhiTranslate="alainApp.button.home.createOrEditLabel">Create or edit a Button</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!button.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="button.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.button.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="button.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.button.acl" for="field_acl">Acl</label>
+                    <input type="text" class="form-control" name="acl" id="field_acl"
+                        [(ngModel)]="button.acl" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.button.description" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                        [(ngModel)]="button.description" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.button.sort" for="field_sort">Sort</label>
+                    <input type="number" class="form-control" name="sort" id="field_sort"
+                        [(ngModel)]="button.sort" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.button.menu" for="field_menu">Menu</label>
+                    <select class="form-control" id="field_menu" name="menu" [(ngModel)]="button.menu" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="menuOption.id === button.menu?.id ? button.menu : menuOption" *ngFor="let menuOption of menus; trackBy: trackMenuById">{{menuOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.button.menuParent" for="field_menuParent">Menu Parent</label>
+                    <select class="form-control" id="field_menuParent" name="menuParent" [(ngModel)]="button.menuParent" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="menuOption.id === button.menuParent?.id ? button.menuParent : menuOption" *ngFor="let menuOption of menus; trackBy: trackMenuById">{{menuOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

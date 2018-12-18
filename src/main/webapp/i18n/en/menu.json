@@ -1,0 +1,42 @@
+{
+    "alainApp": {
+        "menu": {
+            "home": {
+                "title": "Menus",
+                "createLabel": "Create a new Menu",
+                "createOrEditLabel": "Create or edit a Menu"
+            },
+            "created": "A new Menu is created with identifier {{ param }}",
+            "updated": "A Menu is updated with identifier {{ param }}",
+            "deleted": "A Menu is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Menu {{ id }}?"
+            },
+            "detail": {
+                "title": "Menu"
+            },
+            "name": "Name",
+            "i18n": "I 18 N",
+            "group": "Group",
+            "link": "Link",
+            "linkExact": "Link Exact",
+            "externalLink": "External Link",
+            "target": "Target",
+            "icon": "Icon",
+            "badge": "Badge",
+            "badgeDot": "Badge Dot",
+            "badgeStatus": "Badge Status",
+            "hide": "Hide",
+            "hideInBreadcrumb": "Hide In Breadcrumb",
+            "acl": "Acl",
+            "shortcut": "Shortcut",
+            "shortcuRoot": "Shortcu Root",
+            "reuse": "Reuse",
+            "sort": "Sort",
+            "menu": "Menu",
+            "menu": "Menu",
+            "button": "Button",
+            "parent": "Parent"
+        }
+    }
+}

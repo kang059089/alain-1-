@@ -1,0 +1,70 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="alainApp.dictType.home.title">Dict Types</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-dict-type" [routerLink]="['/dict-type/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span  jhiTranslate="alainApp.dictType.home.createLabel">
+            Create new Dict Type
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="dictTypes">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="name"><span jhiTranslate="alainApp.dictType.name">Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="code"><span jhiTranslate="alainApp.dictType.code">Code</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="sort"><span jhiTranslate="alainApp.dictType.sort">Sort</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dict.id"><span jhiTranslate="alainApp.dictType.dict">Dict</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="dictParent.id"><span jhiTranslate="alainApp.dictType.dictParent">Dict Parent</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let dictType of dictTypes ;trackBy: trackId">
+                <td><a [routerLink]="['/dict-type', dictType.id, 'view' ]">{{dictType.id}}</a></td>
+                <td>{{dictType.name}}</td>
+                <td>{{dictType.code}}</td>
+                <td>{{dictType.sort}}</td>
+                <td>
+                    <div *ngIf="dictType.dict">
+                        <a [routerLink]="['../dict', dictType.dict?.id, 'view' ]" >{{dictType.dict?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="dictType.dictParent">
+                        <a [routerLink]="['../dict', dictType.dictParent?.id, 'view' ]" >{{dictType.dictParent?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['/dict-type', dictType.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/dict-type', dictType.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'dict-type/'+ dictType.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

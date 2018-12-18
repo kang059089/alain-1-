@@ -1,0 +1,25 @@
+{
+    "alainApp": {
+        "dictType": {
+            "home": {
+                "title": "Dict Types",
+                "createLabel": "Create a new Dict Type",
+                "createOrEditLabel": "Create or edit a Dict Type"
+            },
+            "created": "A new Dict Type is created with identifier {{ param }}",
+            "updated": "A Dict Type is updated with identifier {{ param }}",
+            "deleted": "A Dict Type is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Dict Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Dict Type"
+            },
+            "name": "Name",
+            "code": "Code",
+            "sort": "Sort",
+            "dict": "Dict",
+            "dictParent": "Dict Parent"
+        }
+    }
+}

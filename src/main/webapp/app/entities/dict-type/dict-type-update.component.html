@@ -1,0 +1,53 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-dict-type-heading" jhiTranslate="alainApp.dictType.home.createOrEditLabel">Create or edit a Dict Type</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!dictType.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="dictType.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.dictType.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="dictType.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.dictType.code" for="field_code">Code</label>
+                    <input type="text" class="form-control" name="code" id="field_code"
+                        [(ngModel)]="dictType.code" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.dictType.sort" for="field_sort">Sort</label>
+                    <input type="number" class="form-control" name="sort" id="field_sort"
+                        [(ngModel)]="dictType.sort" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.dictType.dict" for="field_dict">Dict</label>
+                    <select class="form-control" id="field_dict" name="dict" [(ngModel)]="dictType.dict" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="dictOption.id === dictType.dict?.id ? dictType.dict : dictOption" *ngFor="let dictOption of dicts; trackBy: trackDictById">{{dictOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.dictType.dictParent" for="field_dictParent">Dict Parent</label>
+                    <select class="form-control" id="field_dictParent" name="dictParent" [(ngModel)]="dictType.dictParent" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="dictOption.id === dictType.dictParent?.id ? dictType.dictParent : dictOption" *ngFor="let dictOption of dicts; trackBy: trackDictById">{{dictOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

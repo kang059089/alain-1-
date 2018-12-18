@@ -1,0 +1,34 @@
+{
+    "alainApp": {
+        "org": {
+            "home": {
+                "title": "Orgs",
+                "createLabel": "创建新 Org",
+                "createOrEditLabel": "创建或编辑 Org"
+            },
+            "created": "Org {{ param }} 创建成功",
+            "updated": "Org {{ param }} 更新成功",
+            "deleted": "Org {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Org {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Org"
+            },
+            "name": "Name",
+            "code": "Code",
+            "telephone": "Telephone",
+            "fax": "Fax",
+            "address": "Address",
+            "longitude": "Longitude",
+            "latitude": "Latitude",
+            "icon": "Icon",
+            "description": "Description",
+            "sort": "Sort",
+            "type": "Type",
+            "org": "Org",
+            "org": "Org",
+            "parent": "Parent"
+        }
+    }
+}

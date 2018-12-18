@@ -1,7 +1,5 @@
 {
-    "fluentMethods": true,
-    "clientRootFolder": "",
-    "relationships": [],
+    "name": "App",
     "fields": [
         {
             "fieldName": "name",
@@ -16,11 +14,14 @@
             "fieldType": "Integer"
         }
     ],
+    "relationships": [],
     "changelogDate": "20181217011238",
-    "dto": "no",
-    "searchEngine": false,
-    "service": "no",
     "entityTableName": "app",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
     "jpaMetamodelFiltering": false,
-    "pagination": "no"
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
 }

@@ -8,6 +8,12 @@
             "entities": {
                 "main": "實體",
                 "app": "App",
+                "menu": "Menu",
+                "button": "Button",
+                "org": "Org",
+                "dict": "Dict",
+                "dictType": "Dict Type",
+                "role": "Role",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

@@ -1,0 +1,88 @@
+
+entity App {
+	name String, // 应用名称
+    description String, // 应用描述 
+    year Integer // 应用年份
+}
+
+entity Menu {
+	name String, // 菜单名称
+    i18n String, // 菜单i18n
+    group Boolean, // 是否显示分组名，默认：true
+    link String, // 路由路径
+    linkExact Boolean, // 路由是否精准匹配
+    externalLink String, // 外部链接
+    target String, // 链接target
+    icon String, // 图标
+    badge Integer, // 徽标数，展示的数字
+    badgeDot Boolean, // 徽标数，显示小红点
+    badgeStatus String, // 徽标 Badge 颜色
+    hide Boolean, // 是否隐藏菜单
+    hideInBreadcrumb Boolean, // 隐藏面包屑
+    acl String, // ACL配置
+    shortcut Boolean, // 是否快捷菜单项
+    shortcuRoot Boolean, // 快捷菜单根节点
+    reuse Boolean, // 是否允许复用
+    sort Integer // 菜单顺序
+}
+
+entity Button {
+	name String, // 按钮名称
+    acl String, // 按钮ACL配置
+    description String, // 按钮描述
+    sort Integer // 按钮顺序
+}
+
+entity Org {
+	name String, // 名称
+    code String, // 编码
+    telephone String, // 电话
+    fax String, // 传真
+    address String, // 地址
+    longitude Double, // 经度
+    latitude Double, // 纬度
+    icon String, // 图标
+    description String, // 详情描述
+    sort Integer // 组织顺序
+}
+
+entity Dict {
+	name String, // 字典名称
+    type String // 字典类型
+}
+
+entity DictType {
+	name String, // 字典类型名称
+    code String, // 字典类型编码
+    sort Integer // 字典类型顺序
+}
+
+entity Role {
+	name String, // 角色名称
+    acl String // 角色包含的acl配置
+}
+
+relationship OneToOne {
+  Org{type} to DictType
+}
+
+relationship OneToMany {
+  Menu{menu} to Menu,
+  Menu{button} to Button,
+  Org{org} to Org,
+  Dict{dictType} to DictType,
+  Role{role} to Role
+}
+
+relationship ManyToOne {
+  Menu{parent} to Menu,
+  Button{menuParent} to Menu,
+  Org{parent} to Org,
+  DictType{dictParent} to Dict,
+  Role{parent} to Role
+}
+
+
+paginate Menu, Org, Dict, DictType with infinite-scroll
+
+

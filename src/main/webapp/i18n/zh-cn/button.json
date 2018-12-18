@@ -1,0 +1,26 @@
+{
+    "alainApp": {
+        "button": {
+            "home": {
+                "title": "Buttons",
+                "createLabel": "创建新 Button",
+                "createOrEditLabel": "创建或编辑 Button"
+            },
+            "created": "Button {{ param }} 创建成功",
+            "updated": "Button {{ param }} 更新成功",
+            "deleted": "Button {{ param }} 删除成功",
+            "delete": {
+                "question": "你确定要删除 Button {{ id }} 吗？"
+            },
+            "detail": {
+                "title": "Button"
+            },
+            "name": "Name",
+            "acl": "Acl",
+            "description": "Description",
+            "sort": "Sort",
+            "menu": "Menu",
+            "menuParent": "Menu Parent"
+        }
+    }
+}

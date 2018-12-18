@@ -1,0 +1,23 @@
+{
+    "alainApp": {
+        "dict": {
+            "home": {
+                "title": "Dicts",
+                "createLabel": "Create a new Dict",
+                "createOrEditLabel": "Create or edit a Dict"
+            },
+            "created": "A new Dict is created with identifier {{ param }}",
+            "updated": "A Dict is updated with identifier {{ param }}",
+            "deleted": "A Dict is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Dict {{ id }}?"
+            },
+            "detail": {
+                "title": "Dict"
+            },
+            "name": "Name",
+            "type": "Type",
+            "dictType": "Dict Type"
+        }
+    }
+}

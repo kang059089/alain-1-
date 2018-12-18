@@ -1,0 +1,128 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+            <h2 id="jhi-menu-heading" jhiTranslate="alainApp.menu.home.createOrEditLabel">Create or edit a Menu</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!menu.id">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id"
+                        [(ngModel)]="menu.id" readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                        [(ngModel)]="menu.name" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.i18n" for="field_i18n">I 18 N</label>
+                    <input type="text" class="form-control" name="i18n" id="field_i18n"
+                        [(ngModel)]="menu.i18n" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.group" for="field_group">Group</label>
+                    <input type="checkbox" class="form-control" name="group" id="field_group"
+                        [(ngModel)]="menu.group" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.link" for="field_link">Link</label>
+                    <input type="text" class="form-control" name="link" id="field_link"
+                        [(ngModel)]="menu.link" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.linkExact" for="field_linkExact">Link Exact</label>
+                    <input type="checkbox" class="form-control" name="linkExact" id="field_linkExact"
+                        [(ngModel)]="menu.linkExact" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.externalLink" for="field_externalLink">External Link</label>
+                    <input type="text" class="form-control" name="externalLink" id="field_externalLink"
+                        [(ngModel)]="menu.externalLink" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.target" for="field_target">Target</label>
+                    <input type="text" class="form-control" name="target" id="field_target"
+                        [(ngModel)]="menu.target" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.icon" for="field_icon">Icon</label>
+                    <input type="text" class="form-control" name="icon" id="field_icon"
+                        [(ngModel)]="menu.icon" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.badge" for="field_badge">Badge</label>
+                    <input type="number" class="form-control" name="badge" id="field_badge"
+                        [(ngModel)]="menu.badge" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.badgeDot" for="field_badgeDot">Badge Dot</label>
+                    <input type="checkbox" class="form-control" name="badgeDot" id="field_badgeDot"
+                        [(ngModel)]="menu.badgeDot" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.badgeStatus" for="field_badgeStatus">Badge Status</label>
+                    <input type="text" class="form-control" name="badgeStatus" id="field_badgeStatus"
+                        [(ngModel)]="menu.badgeStatus" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.hide" for="field_hide">Hide</label>
+                    <input type="checkbox" class="form-control" name="hide" id="field_hide"
+                        [(ngModel)]="menu.hide" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.hideInBreadcrumb" for="field_hideInBreadcrumb">Hide In Breadcrumb</label>
+                    <input type="checkbox" class="form-control" name="hideInBreadcrumb" id="field_hideInBreadcrumb"
+                        [(ngModel)]="menu.hideInBreadcrumb" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.acl" for="field_acl">Acl</label>
+                    <input type="text" class="form-control" name="acl" id="field_acl"
+                        [(ngModel)]="menu.acl" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.shortcut" for="field_shortcut">Shortcut</label>
+                    <input type="checkbox" class="form-control" name="shortcut" id="field_shortcut"
+                        [(ngModel)]="menu.shortcut" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.shortcuRoot" for="field_shortcuRoot">Shortcu Root</label>
+                    <input type="checkbox" class="form-control" name="shortcuRoot" id="field_shortcuRoot"
+                        [(ngModel)]="menu.shortcuRoot" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.reuse" for="field_reuse">Reuse</label>
+                    <input type="checkbox" class="form-control" name="reuse" id="field_reuse"
+                        [(ngModel)]="menu.reuse" />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.sort" for="field_sort">Sort</label>
+                    <input type="number" class="form-control" name="sort" id="field_sort"
+                        [(ngModel)]="menu.sort" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.menu" for="field_menu">Menu</label>
+                    <select class="form-control" id="field_menu" name="menu" [(ngModel)]="menu.menu" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="menuOption.id === menu.menu?.id ? menu.menu : menuOption" *ngFor="let menuOption of menus; trackBy: trackMenuById">{{menuOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="alainApp.menu.parent" for="field_parent">Parent</label>
+                    <select class="form-control" id="field_parent" name="parent" [(ngModel)]="menu.parent" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="menuOption.id === menu.parent?.id ? menu.parent : menuOption" *ngFor="let menuOption of menus; trackBy: trackMenuById">{{menuOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

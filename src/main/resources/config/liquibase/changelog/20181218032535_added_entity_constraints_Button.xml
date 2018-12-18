@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Button.
+    -->
+    <changeSet id="20181218032535-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="menu_pid"
+                                 baseTableName="bs_button"
+                                 constraintName="fk_button_menu_parent_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bs_menu"/>
+
+    </changeSet>
+</databaseChangeLog>

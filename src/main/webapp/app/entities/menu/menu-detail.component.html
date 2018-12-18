@@ -1,0 +1,107 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="menu">
+            <h2><span jhiTranslate="alainApp.menu.detail.title">Menu</span> {{menu.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="alainApp.menu.name">Name</span></dt>
+                <dd>
+                    <span>{{menu.name}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.i18n">I 18 N</span></dt>
+                <dd>
+                    <span>{{menu.i18n}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.group">Group</span></dt>
+                <dd>
+                    <span>{{menu.group}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.link">Link</span></dt>
+                <dd>
+                    <span>{{menu.link}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.linkExact">Link Exact</span></dt>
+                <dd>
+                    <span>{{menu.linkExact}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.externalLink">External Link</span></dt>
+                <dd>
+                    <span>{{menu.externalLink}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.target">Target</span></dt>
+                <dd>
+                    <span>{{menu.target}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.icon">Icon</span></dt>
+                <dd>
+                    <span>{{menu.icon}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.badge">Badge</span></dt>
+                <dd>
+                    <span>{{menu.badge}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.badgeDot">Badge Dot</span></dt>
+                <dd>
+                    <span>{{menu.badgeDot}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.badgeStatus">Badge Status</span></dt>
+                <dd>
+                    <span>{{menu.badgeStatus}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.hide">Hide</span></dt>
+                <dd>
+                    <span>{{menu.hide}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.hideInBreadcrumb">Hide In Breadcrumb</span></dt>
+                <dd>
+                    <span>{{menu.hideInBreadcrumb}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.acl">Acl</span></dt>
+                <dd>
+                    <span>{{menu.acl}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.shortcut">Shortcut</span></dt>
+                <dd>
+                    <span>{{menu.shortcut}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.shortcuRoot">Shortcu Root</span></dt>
+                <dd>
+                    <span>{{menu.shortcuRoot}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.reuse">Reuse</span></dt>
+                <dd>
+                    <span>{{menu.reuse}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.sort">Sort</span></dt>
+                <dd>
+                    <span>{{menu.sort}}</span>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.menu">Menu</span></dt>
+                <dd>
+                    <div *ngIf="menu.menu">
+                        <a [routerLink]="['/menu', menu.menu?.id, 'view']">{{menu.menu?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span jhiTranslate="alainApp.menu.parent">Parent</span></dt>
+                <dd>
+                    <div *ngIf="menu.parent">
+                        <a [routerLink]="['/menu', menu.parent?.id, 'view']">{{menu.parent?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/menu', menu.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

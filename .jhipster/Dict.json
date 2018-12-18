@@ -1,0 +1,30 @@
+{
+    "name": "Dict",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "dictType",
+            "otherEntityName": "dictType",
+            "otherEntityRelationshipName": "dict"
+        }
+    ],
+    "changelogDate": "20181218032537",
+    "entityTableName": "dict",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

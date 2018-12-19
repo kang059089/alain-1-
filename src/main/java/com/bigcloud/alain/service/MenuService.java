@@ -25,8 +25,6 @@ public class MenuService {
     }
 
     public Page<MenuDTO> findMenuPage(Pageable pageable) {
-        Page<Menu> menus = menuRepository.findMenuPage(pageable);
-        System.out.println(menus);
         return menuRepository.findMenuPage(pageable).map(MenuDTO::new);
     }
 

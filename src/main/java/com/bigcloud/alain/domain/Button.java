@@ -15,7 +15,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bs_button")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Button implements Serializable {
+public class Button extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,6 @@ public class Button implements Serializable {
     private Integer sort;
 
     @ManyToOne
-    @JsonIgnoreProperties("")
     @JoinColumn(name = "menu_pid")
     private Menu menuParent;
 

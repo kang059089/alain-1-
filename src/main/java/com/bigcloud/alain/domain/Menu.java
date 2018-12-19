@@ -1,5 +1,6 @@
 package com.bigcloud.alain.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -79,14 +80,15 @@ public class Menu extends AbstractAuditingEntity implements Serializable,Compara
     @Column(name = "jhi_sort")
     private Integer sort;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
     private Set<Menu> menus = new HashSet<>();
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "menuParent")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "menuParent")
     private Set<Button> buttons = new HashSet<>();
-    @ManyToOne
-    @JsonIgnoreProperties("")
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pid")
     private Menu parent;
 

@@ -10,7 +10,7 @@ public class MenuDTO {
 
     private String id;
     private String pid;
-    private String parentName;
+    private String pname;
     private String text;
     private String i18n;
     private Boolean group;
@@ -18,9 +18,8 @@ public class MenuDTO {
     private Boolean linkExact;
     private String externalLink;
     private String target;
-    private String icon;
+    private IconDTO icon;
     private String acl;
-    private IconDTO iconDTO;
     private Integer badge;
     private Boolean badgeDot;
     private String badgeStatus;
@@ -43,7 +42,7 @@ public class MenuDTO {
         this.id = menu.getId() + "";
         if (null != menu.getParent()) {
             this.pid = menu.getParent().getId() + "";
-            this.parentName = menu.getParent().getName();
+            this.pname = menu.getParent().getName();
         }
         this.text = menu.getName();
         this.i18n = menu.geti18n();
@@ -52,9 +51,8 @@ public class MenuDTO {
         this.linkExact = menu.isLinkExact();
         this.externalLink = menu.getExternalLink();
         this.target = menu.getTarget();
-        this.icon = menu.getIcon();
+        this.icon = new IconDTO("icon", menu.getIcon(), "outline");
         this.acl = menu.getAcl();
-        this.iconDTO = new IconDTO("icon", menu.getIcon());
         this.badge = menu.getBadge();
         this.badgeDot = menu.isBadgeDot();
         this.badgeStatus = menu.getBadgeStatus();
@@ -89,12 +87,12 @@ public class MenuDTO {
         this.pid = pid;
     }
 
-    public String getParentName() {
-        return parentName;
+    public String getPname() {
+        return pname;
     }
 
-    public void setParentName(String parentName) {
-        this.parentName = parentName;
+    public void setPname(String pname) {
+        this.pname = pname;
     }
 
     public String getText() {
@@ -153,11 +151,11 @@ public class MenuDTO {
         this.target = target;
     }
 
-    public String getIcon() {
+    public IconDTO getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
+    public void setIcon(IconDTO icon) {
         this.icon = icon;
     }
 
@@ -167,14 +165,6 @@ public class MenuDTO {
 
     public void setAcl(String acl) {
         this.acl = acl;
-    }
-
-    public IconDTO getIconDTO() {
-        return iconDTO;
-    }
-
-    public void setIconDTO(IconDTO iconDTO) {
-        this.iconDTO = iconDTO;
     }
 
     public Integer getBadge() {

@@ -4,6 +4,7 @@ import com.bigcloud.alain.AlainApp;
 
 import com.bigcloud.alain.domain.Menu;
 import com.bigcloud.alain.repository.MenuRepository;
+import com.bigcloud.alain.service.MenuService;
 import com.bigcloud.alain.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -97,6 +98,9 @@ public class MenuResourceIntTest {
     private MenuRepository menuRepository;
 
     @Autowired
+    private MenuService menuService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -115,7 +119,7 @@ public class MenuResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MenuResource menuResource = new MenuResource(menuRepository);
+        final MenuResource menuResource = new MenuResource(menuRepository, menuService);
         this.restMenuMockMvc = MockMvcBuilders.standaloneSetup(menuResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

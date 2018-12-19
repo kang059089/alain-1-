@@ -33,7 +33,6 @@ public class DictType implements Serializable {
     private Integer sort;
 
     @ManyToOne
-    @JsonIgnoreProperties("")
     @JoinColumn(name = "dict_pid")
     private Dict dictParent;
 

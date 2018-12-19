@@ -12,9 +12,10 @@ public class IconDTO {
     public IconDTO() {
     }
 
-    public IconDTO(String type, String value) {
+    public IconDTO(String type, String value, String theme) {
         this.type = type;
         this.value = value;
+        this.theme = theme;
     }
 
     public String getType() {

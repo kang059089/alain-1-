@@ -62,7 +62,6 @@ public class Org implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Org> orgs = new HashSet<>();
     @ManyToOne
-    @JsonIgnoreProperties("")
     @JoinColumn(name = "pid")
     private Org parent;
 

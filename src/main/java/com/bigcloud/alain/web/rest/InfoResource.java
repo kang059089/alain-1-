@@ -2,6 +2,7 @@ package com.bigcloud.alain.web.rest;
 
 import com.bigcloud.alain.domain.App;
 import com.bigcloud.alain.domain.Info;
+import com.bigcloud.alain.domain.Menu;
 import com.bigcloud.alain.repository.AppRepository;
 import com.bigcloud.alain.repository.MenuRepository;
 import com.bigcloud.alain.service.dto.MenuDTO;

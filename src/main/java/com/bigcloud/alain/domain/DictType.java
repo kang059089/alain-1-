@@ -15,7 +15,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bs_dict_type")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class DictType implements Serializable {
+public class DictType extends AbstractAuditingEntity implements Serializable,Comparable<DictType> {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,15 +24,15 @@ public class DictType implements Serializable {
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    private String label;
 
     @Column(name = "code")
-    private String code;
+    private String value;
 
     @Column(name = "jhi_sort")
     private Integer sort;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "dict_pid")
     private Dict dictParent;
 
@@ -45,30 +45,30 @@ public class DictType implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    public DictType name(String name) {
-        this.name = name;
+    public DictType label(String label) {
+        this.label = label;
         return this;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getCode() {
-        return code;
+    public String getValue() {
+        return value;
     }
 
-    public DictType code(String code) {
-        this.code = code;
+    public DictType value(String value) {
+        this.value = value;
         return this;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public Integer getSort() {
@@ -99,6 +99,11 @@ public class DictType implements Serializable {
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
+    public int compareTo(DictType dictType) {
+        return sort.compareTo(dictType.getSort());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -121,10 +126,11 @@ public class DictType implements Serializable {
     @Override
     public String toString() {
         return "DictType{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", code='" + getCode() + "'" +
-            ", sort=" + getSort() +
-            "}";
+            "id=" + id +
+            ", label='" + label + '\'' +
+            ", value='" + value + '\'' +
+            ", sort=" + sort +
+            ", dictParent=" + dictParent +
+            '}';
     }
 }

@@ -168,7 +168,7 @@ public class MenuResource {
     @Timed
     public List<MenuTreeDTO> findMenuTree() {
         log.debug("获取所有菜单树结构信息");
-        List<MenuTreeDTO> menuTree = menuRepository.findMenu().stream().map(MenuTreeDTO::new).collect(Collectors.toList());
+        List<MenuTreeDTO> menuTree = menuRepository.findMenu().stream().sorted().map(MenuTreeDTO::new).collect(Collectors.toList());
         return menuTree;
     }
 

@@ -1,5 +1,7 @@
 package com.bigcloud.alain.web.rest;
 
+import com.bigcloud.alain.service.DictTypeService;
+import com.bigcloud.alain.service.dto.DictTypeDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.bigcloud.alain.domain.DictType;
 import com.bigcloud.alain.repository.DictTypeRepository;
@@ -35,24 +37,30 @@ public class DictTypeResource {
 
     private final DictTypeRepository dictTypeRepository;
 
-    public DictTypeResource(DictTypeRepository dictTypeRepository) {
+    private final DictTypeService dictTypeService;
+
+    public DictTypeResource(DictTypeRepository dictTypeRepository, DictTypeService dictTypeService) {
         this.dictTypeRepository = dictTypeRepository;
+        this.dictTypeService = dictTypeService;
     }
 
     /**
      * POST  /dict-types : Create a new dictType.
      *
-     * @param dictType the dictType to create
+     * @param dictTypeDTO the dictType to create
      * @return the ResponseEntity with status 201 (Created) and with body the new dictType, or with status 400 (Bad Request) if the dictType has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/dict-types")
     @Timed
-    public ResponseEntity<DictType> createDictType(@RequestBody DictType dictType) throws URISyntaxException {
-        log.debug("REST request to save DictType : {}", dictType);
-        if (dictType.getId() != null) {
-            throw new BadRequestAlertException("A new dictType cannot already have an ID", ENTITY_NAME, "idexists");
+    public ResponseEntity<DictType> createDictType(@RequestBody DictTypeDTO dictTypeDTO) throws URISyntaxException {
+        log.debug("创建字典类型传入的参数: {}", dictTypeDTO);
+        if (dictTypeDTO.getId() != null) {
+            throw new BadRequestAlertException("字典类型已存在", ENTITY_NAME, "idexists");
+        } else if (dictTypeService.hasOneByCode(dictTypeDTO)) {
+            throw new BadRequestAlertException("该字典类型编码已存在！", "menu.name", "name exists");
         }
+        DictType dictType = dictTypeService.createrDict(dictTypeDTO);
         DictType result = dictTypeRepository.save(dictType);
         return ResponseEntity.created(new URI("/api/dict-types/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -62,7 +70,7 @@ public class DictTypeResource {
     /**
      * PUT  /dict-types : Updates an existing dictType.
      *
-     * @param dictType the dictType to update
+     * @param dictTypeDTO the dictType to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated dictType,
      * or with status 400 (Bad Request) if the dictType is not valid,
      * or with status 500 (Internal Server Error) if the dictType couldn't be updated
@@ -70,11 +78,14 @@ public class DictTypeResource {
      */
     @PutMapping("/dict-types")
     @Timed
-    public ResponseEntity<DictType> updateDictType(@RequestBody DictType dictType) throws URISyntaxException {
-        log.debug("REST request to update DictType : {}", dictType);
-        if (dictType.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    public ResponseEntity<DictType> updateDictType(@RequestBody DictTypeDTO dictTypeDTO) throws URISyntaxException {
+        log.debug("编辑字典类型传入的参数: {}", dictTypeDTO);
+        if (dictTypeDTO.getId() == null) {
+            throw new BadRequestAlertException("字典类型不存在", ENTITY_NAME, "idnull");
+        } else if (dictTypeService.findOneByCode(dictTypeDTO)) {
+            throw new BadRequestAlertException("该字典类型编码已存在！", "menu.name", "name exists");
         }
+        DictType dictType = dictTypeService.createrDict(dictTypeDTO);
         DictType result = dictTypeRepository.save(dictType);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, dictType.getId().toString()))

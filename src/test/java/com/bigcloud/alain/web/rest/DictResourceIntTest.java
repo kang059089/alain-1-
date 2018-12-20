@@ -4,6 +4,7 @@ import com.bigcloud.alain.AlainApp;
 
 import com.bigcloud.alain.domain.Dict;
 import com.bigcloud.alain.repository.DictRepository;
+import com.bigcloud.alain.service.DictService;
 import com.bigcloud.alain.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -49,6 +50,9 @@ public class DictResourceIntTest {
     private DictRepository dictRepository;
 
     @Autowired
+    private DictService dictService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -67,7 +71,7 @@ public class DictResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DictResource dictResource = new DictResource(dictRepository);
+        final DictResource dictResource = new DictResource(dictRepository, dictService);
         this.restDictMockMvc = MockMvcBuilders.standaloneSetup(dictResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

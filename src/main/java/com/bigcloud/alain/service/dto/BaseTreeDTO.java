@@ -8,8 +8,8 @@ public class BaseTreeDTO {
     public String pid; // 父节点id
     public String title; // 节点名称
     public String acl; // 权限控制
-    public String isLeaf; // 是否是叶子节点（true：叶子节点；false：非叶子节点）
-    public String expanded; // 是否展开树结构（true：展开；false：不展开）
+    public Boolean isLeaf; // 是否是叶子节点（true：叶子节点；false：非叶子节点）
+    public Boolean expanded; // 是否展开树结构（true：展开；false：不展开）
     public String description; // 描述
     public List<BaseTreeDTO> children; // 子节点集合
 
@@ -45,19 +45,19 @@ public class BaseTreeDTO {
         this.acl = acl;
     }
 
-    public String getIsLeaf() {
+    public Boolean getLeaf() {
         return isLeaf;
     }
 
-    public void setIsLeaf(String isLeaf) {
-        this.isLeaf = isLeaf;
+    public void setLeaf(Boolean leaf) {
+        isLeaf = leaf;
     }
 
-    public String getExpanded() {
+    public Boolean getExpanded() {
         return expanded;
     }
 
-    public void setExpanded(String expanded) {
+    public void setExpanded(Boolean expanded) {
         this.expanded = expanded;
     }
 

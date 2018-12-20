@@ -4,6 +4,7 @@ import com.bigcloud.alain.AlainApp;
 
 import com.bigcloud.alain.domain.DictType;
 import com.bigcloud.alain.repository.DictTypeRepository;
+import com.bigcloud.alain.service.DictTypeService;
 import com.bigcloud.alain.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -52,6 +53,9 @@ public class DictTypeResourceIntTest {
     private DictTypeRepository dictTypeRepository;
 
     @Autowired
+    private DictTypeService dictTypeService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -70,7 +74,7 @@ public class DictTypeResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DictTypeResource dictTypeResource = new DictTypeResource(dictTypeRepository);
+        final DictTypeResource dictTypeResource = new DictTypeResource(dictTypeRepository, dictTypeService);
         this.restDictTypeMockMvc = MockMvcBuilders.standaloneSetup(dictTypeResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -86,8 +90,8 @@ public class DictTypeResourceIntTest {
      */
     public static DictType createEntity(EntityManager em) {
         DictType dictType = new DictType()
-            .name(DEFAULT_NAME)
-            .code(DEFAULT_CODE)
+            .label(DEFAULT_NAME)
+            .value(DEFAULT_CODE)
             .sort(DEFAULT_SORT);
         return dictType;
     }
@@ -112,8 +116,8 @@ public class DictTypeResourceIntTest {
         List<DictType> dictTypeList = dictTypeRepository.findAll();
         assertThat(dictTypeList).hasSize(databaseSizeBeforeCreate + 1);
         DictType testDictType = dictTypeList.get(dictTypeList.size() - 1);
-        assertThat(testDictType.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testDictType.getCode()).isEqualTo(DEFAULT_CODE);
+        assertThat(testDictType.getLabel()).isEqualTo(DEFAULT_NAME);
+        assertThat(testDictType.getValue()).isEqualTo(DEFAULT_CODE);
         assertThat(testDictType.getSort()).isEqualTo(DEFAULT_SORT);
     }
 
@@ -189,8 +193,8 @@ public class DictTypeResourceIntTest {
         // Disconnect from session so that the updates on updatedDictType are not directly saved in db
         em.detach(updatedDictType);
         updatedDictType
-            .name(UPDATED_NAME)
-            .code(UPDATED_CODE)
+            .label(UPDATED_NAME)
+            .value(UPDATED_CODE)
             .sort(UPDATED_SORT);
 
         restDictTypeMockMvc.perform(put("/api/dict-types")
@@ -202,8 +206,8 @@ public class DictTypeResourceIntTest {
         List<DictType> dictTypeList = dictTypeRepository.findAll();
         assertThat(dictTypeList).hasSize(databaseSizeBeforeUpdate);
         DictType testDictType = dictTypeList.get(dictTypeList.size() - 1);
-        assertThat(testDictType.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testDictType.getCode()).isEqualTo(UPDATED_CODE);
+        assertThat(testDictType.getLabel()).isEqualTo(UPDATED_NAME);
+        assertThat(testDictType.getValue()).isEqualTo(UPDATED_CODE);
         assertThat(testDictType.getSort()).isEqualTo(UPDATED_SORT);
     }
 

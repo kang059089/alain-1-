@@ -1,5 +1,7 @@
 package com.bigcloud.alain.web.rest;
 
+import com.bigcloud.alain.service.DictService;
+import com.bigcloud.alain.service.dto.DictDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.bigcloud.alain.domain.Dict;
 import com.bigcloud.alain.repository.DictRepository;
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -35,24 +39,30 @@ public class DictResource {
 
     private final DictRepository dictRepository;
 
-    public DictResource(DictRepository dictRepository) {
+    private final DictService dictService;
+
+    public DictResource(DictRepository dictRepository, DictService dictService) {
         this.dictRepository = dictRepository;
+        this.dictService = dictService;
     }
 
     /**
      * POST  /dicts : Create a new dict.
      *
-     * @param dict the dict to create
+     * @param dictDTO the dict to create
      * @return the ResponseEntity with status 201 (Created) and with body the new dict, or with status 400 (Bad Request) if the dict has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/dicts")
     @Timed
-    public ResponseEntity<Dict> createDict(@RequestBody Dict dict) throws URISyntaxException {
-        log.debug("REST request to save Dict : {}", dict);
-        if (dict.getId() != null) {
-            throw new BadRequestAlertException("A new dict cannot already have an ID", ENTITY_NAME, "idexists");
+    public ResponseEntity<Dict> createDict(@RequestBody DictDTO dictDTO) throws URISyntaxException {
+        log.debug("创建字典传入的参数: {}", dictDTO);
+        if (dictDTO.getId() != null) {
+            throw new BadRequestAlertException("字典已存在", ENTITY_NAME, "idexists");
+        } else if (dictService.hasOneByType(dictDTO.getType())) {
+            throw new BadRequestAlertException("该字典类型已存在！", "menu.name", "name exists");
         }
+        Dict dict = dictService.createrDict(dictDTO);
         Dict result = dictRepository.save(dict);
         return ResponseEntity.created(new URI("/api/dicts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -62,7 +72,7 @@ public class DictResource {
     /**
      * PUT  /dicts : Updates an existing dict.
      *
-     * @param dict the dict to update
+     * @param dictDTO the dict to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated dict,
      * or with status 400 (Bad Request) if the dict is not valid,
      * or with status 500 (Internal Server Error) if the dict couldn't be updated
@@ -70,11 +80,15 @@ public class DictResource {
      */
     @PutMapping("/dicts")
     @Timed
-    public ResponseEntity<Dict> updateDict(@RequestBody Dict dict) throws URISyntaxException {
-        log.debug("REST request to update Dict : {}", dict);
-        if (dict.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    public ResponseEntity<Dict> updateDict(@RequestBody DictDTO dictDTO) throws URISyntaxException {
+        log.debug("编辑字典传入的参数: {}", dictDTO);
+        Optional<Dict> existingEntity = dictService.findOneByType(dictDTO.getType());
+        if (dictDTO.getId() == null) {
+            throw new BadRequestAlertException("字典不存在", ENTITY_NAME, "idnull");
+        } else if (existingEntity.isPresent() && (!existingEntity.get().getType().equals(dictDTO.getType()))) {
+            throw new BadRequestAlertException("该字典类型已存在！", "menu.name", "name exists");
         }
+        Dict dict = dictService.createrDict(dictDTO);
         Dict result = dictRepository.save(dict);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, dict.getId().toString()))
@@ -124,4 +138,50 @@ public class DictResource {
         dictRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     *  获取所有字典列表信息,返回字典分页信息
+     * @param pageable 分页参数
+     * @return 包括字典列表及字典总数的map集合
+     */
+    @GetMapping("/dictList")
+    @Timed
+    public ResponseEntity<Map> findDictList(Pageable pageable) {
+        log.debug("获取所有字典列表分页信息的pageable参数: {}", pageable);
+        Page<DictDTO> page = dictService.getDictsPage(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/dictList");
+        Map map = new HashMap();
+        map.put("list",page.getContent());
+        map.put("total",page.getTotalElements());
+        return new ResponseEntity<>(map, headers, HttpStatus.OK);
+    }
+
+    /**
+     * 通过参数获取字典列表信息
+     * @param item 参数（字典名称or字典类型）
+     * @param pageable 分页参数
+     * @return 包括字典列表及字典总数的map集合
+     */
+    @GetMapping("/dictSearch/{item}")
+    @Timed
+    public ResponseEntity<Map> getDictByItem(@PathVariable String item, Pageable pageable) {
+        Page<DictDTO> page = dictService.getDictByItemPage(item, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/dictSearch");
+        Map map = new HashMap();
+        map.put("list",page.getContent());
+        map.put("total",page.getTotalElements());
+        return new ResponseEntity<>(map, headers, HttpStatus.OK);
+    }
+
+    /**
+     *  获取组织机构类型的字典信息
+     * @return 组织机构类型字典信息
+     */
+    @GetMapping("/dictOrg")
+    @Timed
+    public DictDTO getDictOrg() {
+        DictDTO dictDTO = new DictDTO(dictRepository.getDictOrg());
+        return dictDTO;
+    }
+
 }

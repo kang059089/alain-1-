@@ -1,5 +1,6 @@
 package com.bigcloud.alain.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bs_dict")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Dict implements Serializable {
+public class Dict extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,8 +31,8 @@ public class Dict implements Serializable {
     @Column(name = "jhi_type")
     private String type;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dictParent")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "dictParent")
     private Set<DictType> dictTypes = new HashSet<>();
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

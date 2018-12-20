@@ -17,11 +17,11 @@ public class MenuTreeDTO extends BaseTreeDTO {
         if (null != menu.getParent()) this.pid = menu.getParent().getId() + "";
         this.title = menu.getName();
         this.acl = menu.getAcl();
-        this.expanded = "true"; // 树结构默认展开
+        this.expanded = true; // 树结构默认展开
         if (!menu.getMenus().isEmpty()) {
             this.children = menu.getMenus().stream().sorted().map(MenuTreeDTO::new).collect(Collectors.toList());
         } else {
-            this.isLeaf = "true";
+            this.isLeaf = true;
         }
         this.btnChildren = menu.getButtons().stream().map(ButtonDTO::new).collect(Collectors.toList());
     }

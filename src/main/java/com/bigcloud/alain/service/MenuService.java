@@ -32,6 +32,23 @@ public class MenuService {
         return menuRepository.findMenuByItemPage(item, pageable).map(MenuDTO::new);
     }
 
+    public Optional<Menu> findMenuById(Long id) {
+        return menuRepository.findMenuById(id);
+    }
+
+    public boolean isMenuTree(MenuDTO menuDTO) {
+        if (menuDTO.getChildren() == null) {
+            return false;
+        } else {
+            for (MenuDTO menuDTO1 : menuDTO.getChildren()) {
+                if (menuDTO.getPid().equals(menuDTO1.getId())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public Menu createrMenu(MenuDTO menuDTO) {
         Menu menu = new Menu();
         menu.setId(menuDTO.getId() != null ? Long.valueOf(menuDTO.getId()) : null);
@@ -58,22 +75,5 @@ public class MenuService {
             });
         }
         return menu;
-    }
-
-    public Optional<Menu> findMenuById(Long id) {
-        return menuRepository.findMenuById(id);
-    }
-
-    public boolean isMenuTree(MenuDTO menuDTO) {
-        if (menuDTO.getChildren() == null) {
-            return false;
-        } else {
-            for (MenuDTO menuDTO1 : menuDTO.getChildren()) {
-                if (menuDTO.getPid().equals(menuDTO1.getId())) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }

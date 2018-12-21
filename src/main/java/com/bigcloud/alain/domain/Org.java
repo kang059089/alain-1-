@@ -1,6 +1,6 @@
 package com.bigcloud.alain.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -17,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bs_org")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Org implements Serializable {
+public class Org extends AbstractAuditingEntity implements Serializable,Comparable<Org> {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,13 +55,15 @@ public class Org implements Serializable {
     @Column(name = "jhi_sort")
     private Integer sort;
 
-    @OneToOne    @JoinColumn(unique = true)
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "type_id")
     private DictType type;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
     private Set<Org> orgs = new HashSet<>();
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pid")
     private Org parent;
 
@@ -253,6 +255,11 @@ public class Org implements Serializable {
         this.parent = org;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    @Override
+    public int compareTo(Org org) {
+        return sort.compareTo(org.getSort());
+    }
 
     @Override
     public boolean equals(Object o) {

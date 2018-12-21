@@ -42,6 +42,10 @@ public class DictTypeService {
         ).findAny().isPresent();
     }
 
+    public Optional<Dict> findDictById(Long id) {
+        return dictRepository.findDictById(id);
+    }
+
     public DictType createrDict(DictTypeDTO dictTypeDTO) {
         DictType dictType = new DictType();
         dictType.setId(dictTypeDTO.getId() != null ? Long.valueOf(dictTypeDTO.getId()) : null);
@@ -54,10 +58,6 @@ public class DictTypeService {
             });
         }
         return dictType;
-    }
-
-    public Optional<Dict> findDictById(Long id) {
-        return dictRepository.findDictById(id);
     }
 }
 

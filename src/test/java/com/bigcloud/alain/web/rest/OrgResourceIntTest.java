@@ -4,6 +4,7 @@ import com.bigcloud.alain.AlainApp;
 
 import com.bigcloud.alain.domain.Org;
 import com.bigcloud.alain.repository.OrgRepository;
+import com.bigcloud.alain.service.OrgService;
 import com.bigcloud.alain.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -73,6 +74,9 @@ public class OrgResourceIntTest {
     private OrgRepository orgRepository;
 
     @Autowired
+    private OrgService orgService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -91,7 +95,7 @@ public class OrgResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final OrgResource orgResource = new OrgResource(orgRepository);
+        final OrgResource orgResource = new OrgResource(orgRepository, orgService);
         this.restOrgMockMvc = MockMvcBuilders.standaloneSetup(orgResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -4,6 +4,7 @@ import com.bigcloud.alain.domain.User;
 import com.bigcloud.alain.repository.UserRepository;
 import com.bigcloud.alain.security.jwt.JWTFilter;
 import com.bigcloud.alain.security.jwt.TokenProvider;
+import com.bigcloud.alain.service.dto.UserDTO;
 import com.bigcloud.alain.web.rest.vm.LoginVM;
 
 import com.codahale.metrics.annotation.Timed;
@@ -80,19 +81,19 @@ public class UserJWTController {
 
     static class UserToken{
         @JsonProperty("user")
-        private User user;
+        private UserDTO user;
         private String token;
 
         UserToken(User user, String jwt) {
-            this.user = user;
+            this.user = new UserDTO(user.getLogin(), user.getEmail(), user.getImageUrl(), user.getLastName(), user.getActivated());
             this.token = jwt;
         }
 
-        public User getUser() {
+        public UserDTO getUser() {
             return user;
         }
 
-        public void setUser(User user) {
+        public void setUser(UserDTO user) {
             this.user = user;
         }
 

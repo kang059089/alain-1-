@@ -4,6 +4,7 @@ import com.bigcloud.alain.AlainApp;
 
 import com.bigcloud.alain.domain.Button;
 import com.bigcloud.alain.repository.ButtonRepository;
+import com.bigcloud.alain.service.ButtonService;
 import com.bigcloud.alain.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -55,6 +56,9 @@ public class ButtonResourceIntTest {
     private ButtonRepository buttonRepository;
 
     @Autowired
+    private ButtonService buttonService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -73,7 +77,7 @@ public class ButtonResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ButtonResource buttonResource = new ButtonResource(buttonRepository);
+        final ButtonResource buttonResource = new ButtonResource(buttonRepository, buttonService);
         this.restButtonMockMvc = MockMvcBuilders.standaloneSetup(buttonResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

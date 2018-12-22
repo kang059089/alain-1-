@@ -1,5 +1,7 @@
 package com.bigcloud.alain.web.rest;
 
+import com.bigcloud.alain.service.ButtonService;
+import com.bigcloud.alain.service.dto.ButtonDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.bigcloud.alain.domain.Button;
 import com.bigcloud.alain.repository.ButtonRepository;
@@ -30,24 +32,28 @@ public class ButtonResource {
 
     private final ButtonRepository buttonRepository;
 
-    public ButtonResource(ButtonRepository buttonRepository) {
+    private final ButtonService buttonService;
+
+    public ButtonResource(ButtonRepository buttonRepository, ButtonService buttonService) {
         this.buttonRepository = buttonRepository;
+        this.buttonService = buttonService;
     }
 
     /**
      * POST  /buttons : Create a new button.
      *
-     * @param button the button to create
+     * @param buttonDTO the button to create
      * @return the ResponseEntity with status 201 (Created) and with body the new button, or with status 400 (Bad Request) if the button has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/buttons")
     @Timed
-    public ResponseEntity<Button> createButton(@RequestBody Button button) throws URISyntaxException {
-        log.debug("REST request to save Button : {}", button);
-        if (button.getId() != null) {
-            throw new BadRequestAlertException("A new button cannot already have an ID", ENTITY_NAME, "idexists");
+    public ResponseEntity<Button> createButton(@RequestBody ButtonDTO buttonDTO) throws URISyntaxException {
+        log.debug("创建权限按钮传入的参数: {}", buttonDTO);
+        if (buttonDTO.getId() != null) {
+            throw new BadRequestAlertException("权限按钮已存在", ENTITY_NAME, "idexists");
         }
+        Button button = buttonService.createrButton(buttonDTO);
         Button result = buttonRepository.save(button);
         return ResponseEntity.created(new URI("/api/buttons/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -57,7 +63,7 @@ public class ButtonResource {
     /**
      * PUT  /buttons : Updates an existing button.
      *
-     * @param button the button to update
+     * @param buttonDTO the button to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated button,
      * or with status 400 (Bad Request) if the button is not valid,
      * or with status 500 (Internal Server Error) if the button couldn't be updated
@@ -65,11 +71,12 @@ public class ButtonResource {
      */
     @PutMapping("/buttons")
     @Timed
-    public ResponseEntity<Button> updateButton(@RequestBody Button button) throws URISyntaxException {
-        log.debug("REST request to update Button : {}", button);
-        if (button.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    public ResponseEntity<Button> updateButton(@RequestBody ButtonDTO buttonDTO) throws URISyntaxException {
+        log.debug("编辑权限按钮传入的参数 : {}", buttonDTO);
+        if (buttonDTO.getId() == null) {
+            throw new BadRequestAlertException("权限按钮不存在", ENTITY_NAME, "idnull");
         }
+        Button button = buttonService.createrButton(buttonDTO);
         Button result = buttonRepository.save(button);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, button.getId().toString()))

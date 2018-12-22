@@ -10,6 +10,7 @@ public class ButtonDTO {
     private String menuPid;
     private String name;
     private String acl;
+    private Integer sort;
     private String description;
     private String createName;
     private Instant createDate;
@@ -23,6 +24,7 @@ public class ButtonDTO {
         if (null != button.getMenuParent()) this.menuPid = button.getMenuParent().getId() + "";
         this.name = button.getName();
         this.acl = button.getAcl();
+        this.sort = button.getSort();
         this.description = button.getDescription();
         this.createName = button.getCreatedBy();
         this.createDate = button.getCreatedDate();
@@ -68,6 +70,14 @@ public class ButtonDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public String getCreateName() {

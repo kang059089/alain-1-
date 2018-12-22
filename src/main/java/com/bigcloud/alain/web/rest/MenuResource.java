@@ -1,6 +1,7 @@
 package com.bigcloud.alain.web.rest;
 
 import com.bigcloud.alain.service.MenuService;
+import com.bigcloud.alain.service.dto.AclTreeDTO;
 import com.bigcloud.alain.service.dto.MenuDTO;
 import com.bigcloud.alain.service.dto.MenuTreeDTO;
 import com.codahale.metrics.annotation.Timed;
@@ -187,5 +188,17 @@ public class MenuResource {
         map.put("list",page.getContent());
         map.put("total",page.getTotalElements());
         return new ResponseEntity<>(map, headers, HttpStatus.OK);
+    }
+
+    /**
+     * 获取所有菜单权限树结构信息
+     * @return
+     */
+    @GetMapping("/aclMenuTree")
+    @Timed
+    public List<AclTreeDTO> findAclTree() {
+        log.debug("获取所有权限树结构信息");
+        List<AclTreeDTO> aclTree = menuRepository.findMenu().stream().map(AclTreeDTO::new).collect(Collectors.toList());
+        return aclTree;
     }
 }

@@ -15,7 +15,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bs_button")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Button extends AbstractAuditingEntity implements Serializable {
+public class Button extends AbstractAuditingEntity implements Serializable,Comparable<Button> {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class Button extends AbstractAuditingEntity implements Serializable {
     @Column(name = "jhi_sort")
     private Integer sort;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_pid")
     private Menu menuParent;
 
@@ -113,6 +113,11 @@ public class Button extends AbstractAuditingEntity implements Serializable {
         this.menuParent = menu;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    @Override
+    public int compareTo(Button button) {
+        return sort.compareTo(button.getSort());
+    }
 
     @Override
     public boolean equals(Object o) {

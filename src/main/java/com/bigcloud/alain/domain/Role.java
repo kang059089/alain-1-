@@ -1,5 +1,6 @@
 package com.bigcloud.alain.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -17,7 +18,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "bs_role")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Role implements Serializable {
+public class Role extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,10 +32,11 @@ public class Role implements Serializable {
     @Column(name = "acl")
     private String acl;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
     private Set<Role> roles = new HashSet<>();
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pid")
     private Role parent;
 

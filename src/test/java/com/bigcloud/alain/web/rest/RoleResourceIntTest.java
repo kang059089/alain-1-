@@ -4,6 +4,7 @@ import com.bigcloud.alain.AlainApp;
 
 import com.bigcloud.alain.domain.Role;
 import com.bigcloud.alain.repository.RoleRepository;
+import com.bigcloud.alain.service.RoleService;
 import com.bigcloud.alain.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -49,6 +50,9 @@ public class RoleResourceIntTest {
     private RoleRepository roleRepository;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -67,7 +71,7 @@ public class RoleResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final RoleResource roleResource = new RoleResource(roleRepository);
+        final RoleResource roleResource = new RoleResource(roleRepository, roleService);
         this.restRoleMockMvc = MockMvcBuilders.standaloneSetup(roleResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

@@ -1,5 +1,8 @@
 package com.bigcloud.alain.web.rest;
 
+import com.bigcloud.alain.service.RoleService;
+import com.bigcloud.alain.service.dto.RoleDTO;
+import com.bigcloud.alain.service.dto.RoleTreeDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.bigcloud.alain.domain.Role;
 import com.bigcloud.alain.repository.RoleRepository;
@@ -16,6 +19,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Role.
@@ -30,24 +34,28 @@ public class RoleResource {
 
     private final RoleRepository roleRepository;
 
-    public RoleResource(RoleRepository roleRepository) {
+    private final RoleService roleService;
+
+    public RoleResource(RoleRepository roleRepository, RoleService roleService) {
         this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
     /**
      * POST  /roles : Create a new role.
      *
-     * @param role the role to create
+     * @param roleDTO the role to create
      * @return the ResponseEntity with status 201 (Created) and with body the new role, or with status 400 (Bad Request) if the role has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/roles")
     @Timed
-    public ResponseEntity<Role> createRole(@RequestBody Role role) throws URISyntaxException {
-        log.debug("REST request to save Role : {}", role);
-        if (role.getId() != null) {
-            throw new BadRequestAlertException("A new role cannot already have an ID", ENTITY_NAME, "idexists");
+    public ResponseEntity<Role> createRole(@RequestBody RoleDTO roleDTO) throws URISyntaxException {
+        log.debug("创建角色传入的参数 : {}", roleDTO);
+        if (roleDTO.getId() != null) {
+            throw new BadRequestAlertException("角色已存在", ENTITY_NAME, "idexists");
         }
+        Role role = roleService.createrRole(roleDTO);
         Role result = roleRepository.save(role);
         return ResponseEntity.created(new URI("/api/roles/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -57,7 +65,7 @@ public class RoleResource {
     /**
      * PUT  /roles : Updates an existing role.
      *
-     * @param role the role to update
+     * @param roleDTO the role to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated role,
      * or with status 400 (Bad Request) if the role is not valid,
      * or with status 500 (Internal Server Error) if the role couldn't be updated
@@ -65,11 +73,12 @@ public class RoleResource {
      */
     @PutMapping("/roles")
     @Timed
-    public ResponseEntity<Role> updateRole(@RequestBody Role role) throws URISyntaxException {
-        log.debug("REST request to update Role : {}", role);
-        if (role.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    public ResponseEntity<Role> updateRole(@RequestBody RoleDTO roleDTO) throws URISyntaxException {
+        log.debug("编辑角色传入的参数 : {}", roleDTO);
+        if (roleDTO.getId() == null) {
+            throw new BadRequestAlertException("角色不存在", ENTITY_NAME, "idnull");
         }
+        Role role = roleService.createrRole(roleDTO);
         Role result = roleRepository.save(role);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, role.getId().toString()))
@@ -115,5 +124,17 @@ public class RoleResource {
 
         roleRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * 获取所有角色树结构信息
+     * @return 返回所有角色树结构信息
+     */
+    @GetMapping("/roleTree")
+    @Timed
+    public List<RoleTreeDTO> findRoleTree() {
+        log.debug("获取所有角色树结构信息");
+        List<RoleTreeDTO> roleTree = roleRepository.findRole().stream().map(RoleTreeDTO::new).collect(Collectors.toList());
+        return roleTree;
     }
 }

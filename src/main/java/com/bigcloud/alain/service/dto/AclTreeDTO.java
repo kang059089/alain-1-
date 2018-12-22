@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 
 public class AclTreeDTO extends MenuTreeDTO {
 
+    // 前台角色管理中的权限树中key需要唯一性，但构造函数中的menuId和buttonId存在相同的情况，
+    // 所以增加id属性，而key为其中的acl属性
+    private String id;
     private Boolean isBtn;
     private Integer sort;
 
@@ -15,7 +18,8 @@ public class AclTreeDTO extends MenuTreeDTO {
     }
 
     public AclTreeDTO(Menu menu) {
-        this.key = menu.getId() + "";
+        this.id = menu.getId() + "";
+        this.key = menu.getAcl();
         if (null != menu.getParent()) this.pid = menu.getParent().getId() + "";
         this.title = menu.getName();
         this.acl = menu.getAcl();
@@ -34,7 +38,8 @@ public class AclTreeDTO extends MenuTreeDTO {
     }
 
     public AclTreeDTO(Button button) {
-        this.key = button.getId() + "";
+        this.id = button.getId() + "";
+        this.key = button.getAcl();
         if (null != button.getMenuParent()) this.pid = button.getMenuParent().getId() + "";
         this.title = button.getName();
         this.acl = button.getAcl();
@@ -42,6 +47,14 @@ public class AclTreeDTO extends MenuTreeDTO {
         this.isLeaf = true;
         this.isBtn = true; // 表示按钮节点
         this.description = button.getDescription();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Boolean getBtn() {

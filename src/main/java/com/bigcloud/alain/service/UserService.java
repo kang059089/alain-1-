@@ -2,8 +2,10 @@ package com.bigcloud.alain.service;
 
 import com.bigcloud.alain.config.Constants;
 import com.bigcloud.alain.domain.Authority;
+import com.bigcloud.alain.domain.Role;
 import com.bigcloud.alain.domain.User;
 import com.bigcloud.alain.repository.AuthorityRepository;
+import com.bigcloud.alain.repository.RoleRepository;
 import com.bigcloud.alain.repository.UserRepository;
 import com.bigcloud.alain.security.AuthoritiesConstants;
 import com.bigcloud.alain.security.SecurityUtils;
@@ -41,12 +43,17 @@ public class UserService {
 
     private final AuthorityRepository authorityRepository;
 
+    private final RoleRepository roleRepository;
+
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       AuthorityRepository authorityRepository, RoleRepository roleRepository,
+                       CacheManager cacheManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
+        this.roleRepository = roleRepository;
         this.cacheManager = cacheManager;
     }
 
@@ -110,13 +117,22 @@ public class UserService {
         newUser.setEmail(userDTO.getEmail().toLowerCase());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
+        newUser.setCreatedDate(userDTO.getCreatedDate());
         // new user is not active
-        newUser.setActivated(false);
+        newUser.setActivated(userDTO.isActivated());
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
+        if (userDTO.getRoles() != null) {
+            Set<Role> roles = userDTO.getRoles().stream()
+                .map(roleRepository::findRoleById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+            newUser.setRoles(roles);
+        }
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
@@ -135,10 +151,15 @@ public class UserService {
     public User createUser(UserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.getLogin().toLowerCase());
+        user.setRealName(userDTO.getRealName());
+        user.setNickName(userDTO.getNickName());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail().toLowerCase());
+        user.setTelephone(userDTO.getTelephone());
         user.setImageUrl(userDTO.getImageUrl());
+        user.setIntroduce(userDTO.getIntroduce());
+        user.setAddress(userDTO.getAddress());
         if (userDTO.getLangKey() == null) {
             user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
         } else {
@@ -148,7 +169,15 @@ public class UserService {
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
-        user.setActivated(true);
+        user.setActivated(userDTO.isActivated());
+        if (userDTO.getRoles() != null) {
+            Set<Role> roles = userDTO.getRoles().stream()
+                .map(roleRepository::findRoleById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+            user.setRoles(roles);
+        }
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = userDTO.getAuthorities().stream()
                 .map(authorityRepository::findById)
@@ -200,10 +229,19 @@ public class UserService {
             .map(user -> {
                 this.clearUserCaches(user);
                 user.setLogin(userDTO.getLogin().toLowerCase());
+                if (!"888888".equals(userDTO.getPassword())) {
+                    String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
+                    user.setPassword(encryptedPassword);
+                }
+                user.setRealName(userDTO.getRealName());
+                user.setNickName(userDTO.getNickName());
                 user.setFirstName(userDTO.getFirstName());
                 user.setLastName(userDTO.getLastName());
                 user.setEmail(userDTO.getEmail().toLowerCase());
+                user.setTelephone(userDTO.getTelephone());
                 user.setImageUrl(userDTO.getImageUrl());
+                user.setIntroduce(userDTO.getIntroduce());
+                user.setAddress(userDTO.getAddress());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
                 Set<Authority> managedAuthorities = user.getAuthorities();
@@ -213,6 +251,13 @@ public class UserService {
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .forEach(managedAuthorities::add);
+                Set<Role> roles = user.getRoles();
+                roles.clear();
+                userDTO.getRoles().stream()
+                    .map(roleRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .forEach(roles::add);
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;
@@ -284,6 +329,10 @@ public class UserService {
      */
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+    }
+
+    public Page<UserDTO> getUsersPage(Pageable pageable) {
+        return userRepository.findAll(pageable).map(UserDTO::new);
     }
 
     private void clearUserCaches(User user) {

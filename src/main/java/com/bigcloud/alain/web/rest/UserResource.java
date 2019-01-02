@@ -187,4 +187,21 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
     }
+
+    /**
+     *
+     * @param pageable
+     * @return
+     */
+    @GetMapping("/userList")
+    @Timed
+    public ResponseEntity<Map> findDictList(Pageable pageable) {
+        log.debug("获取所有用户列表分页信息的pageable参数: {}", pageable);
+        Page<UserDTO> page = userService.getUsersPage(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/userList");
+        Map map = new HashMap();
+        map.put("list",page.getContent());
+        map.put("total",page.getTotalElements());
+        return new ResponseEntity<>(map, headers, HttpStatus.OK);
+    }
 }

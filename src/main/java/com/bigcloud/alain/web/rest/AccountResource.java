@@ -1,5 +1,6 @@
 package com.bigcloud.alain.web.rest;
 
+import com.bigcloud.alain.web.rest.util.HeaderUtil;
 import com.codahale.metrics.annotation.Timed;
 
 import com.bigcloud.alain.domain.User;
@@ -17,10 +18,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 
@@ -57,12 +61,15 @@ public class AccountResource {
     @PostMapping("/register")
     @Timed
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+    public ResponseEntity<User> registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) throws URISyntaxException {
         if (!checkPasswordLength(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
         mailService.sendActivationEmail(user);
+        return ResponseEntity.created(new URI("/api/register/" + user.getLogin()))
+            .headers(HeaderUtil.createAlert( "userManagement.created", user.getLogin()))
+            .body(user);
     }
 
     /**

@@ -57,6 +57,10 @@ public class UserService {
         this.cacheManager = cacheManager;
     }
 
+    public Page<UserDTO> getUserByItemPage(String item, Pageable pageable) {
+        return userRepository.getUserByItem(item, pageable).map(UserDTO::new);
+    }
+
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository.findOneByActivationKey(key)
@@ -294,8 +298,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        return userRepository.findOneWithAuthoritiesByLogin(login);
+    public Optional<UserDTO> getUserWithAuthoritiesByLogin(String login) {
+        return userRepository.findOneWithAuthoritiesByLogin(login).map(UserDTO::new);
     }
 
     @Transactional(readOnly = true)

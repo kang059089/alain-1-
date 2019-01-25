@@ -164,14 +164,13 @@ public class UserResource {
      * @param login the login of the user to find
      * @return the ResponseEntity with status 200 (OK) and with body the "login" user, or with status 404 (Not Found)
      */
-    @GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
-    @Timed
-    public ResponseEntity<UserDTO> getUser(@PathVariable String login) {
-        log.debug("REST request to get User : {}", login);
-        return ResponseUtil.wrapOrNotFound(
-            userService.getUserWithAuthoritiesByLogin(login)
-                .map(UserDTO::new));
-    }
+//    @GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
+//    @Timed
+//    public ResponseEntity<UserDTO> getUser(@PathVariable String login) {
+//        log.debug("REST request to get User : {}", login);
+//        return ResponseUtil.wrapOrNotFound(
+//            userService.getUserWithAuthoritiesByLogin(login));
+//    }
 
     /**
      * DELETE /users/:login : delete the "login" User.
@@ -189,9 +188,9 @@ public class UserResource {
     }
 
     /**
-     *
-     * @param pageable
-     * @return
+     * 获取所有用户列表分页信息
+     * @param pageable 分页参数
+     * @return 返回包括用户列表及用户总数的map集合
      */
     @GetMapping("/userList")
     @Timed
@@ -203,5 +202,34 @@ public class UserResource {
         map.put("list",page.getContent());
         map.put("total",page.getTotalElements());
         return new ResponseEntity<>(map, headers, HttpStatus.OK);
+    }
+
+    /**
+     * 通过参数获取组织机构列表信息
+     * @param item 参数（登录名or电话）
+     * @param pageable 分页参数
+     * @return 返回包括用户列表及用户总数的map集合
+     */
+    @GetMapping("/userSearch/{item}")
+    @Timed
+    public ResponseEntity<Map> getByItem(@PathVariable String item, Pageable pageable) {
+        Page<UserDTO> page = userService.getUserByItemPage(item, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/userSearch");
+        Map map = new HashMap();
+        map.put("list",page.getContent());
+        map.put("total",page.getTotalElements());
+        return new ResponseEntity<>(map, headers, HttpStatus.OK);
+    }
+
+    /**
+     * 通过登录名获取用户信息
+     * @param login 登录名
+     * @return 返回用户信息
+     */
+    @GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
+    @Timed
+    public User getUserByLogin(@PathVariable String login) {
+        log.debug("获取用户信息的参数(登录名) : {}", login);
+        return userRepository.findByLogin(login);
     }
 }

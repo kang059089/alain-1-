@@ -48,4 +48,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT * FROM jhi_user where login = ?1", nativeQuery = true)
     User findByLogin(String login);
+
+    @Query(value = "SELECT * FROM jhi_user where login = ?1 or telephone = ?1", nativeQuery = true)
+    Page<User> getUserByItem(String item, Pageable pageable);
 }

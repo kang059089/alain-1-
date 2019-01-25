@@ -80,8 +80,9 @@ public class UserJWTController {
     }
 
     static class UserToken{
-        @JsonProperty("user")
+//        @JsonProperty("user")
         private UserDTO user;
+//        @JsonProperty("token")
         private String token;
 
         UserToken(User user, String jwt) {

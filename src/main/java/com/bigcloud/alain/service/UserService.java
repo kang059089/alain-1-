@@ -61,6 +61,11 @@ public class UserService {
         return userRepository.getUserByItem(item, pageable).map(UserDTO::new);
     }
 
+    public UserDTO findByLogin(String login) {
+        User user = userRepository.findByLogin(login);
+        return new UserDTO(userRepository.findByLogin(login));
+    }
+
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository.findOneByActivationKey(key)
@@ -119,6 +124,7 @@ public class UserService {
         newUser.setFirstName(userDTO.getFirstName());
         newUser.setLastName(userDTO.getLastName());
         newUser.setEmail(userDTO.getEmail().toLowerCase());
+        newUser.setTelephone(userDTO.getTelephone());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         newUser.setCreatedDate(userDTO.getCreatedDate());
@@ -126,9 +132,9 @@ public class UserService {
         newUser.setActivated(userDTO.isActivated());
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
-        Set<Authority> authorities = new HashSet<>();
-        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
-        newUser.setAuthorities(authorities);
+//        Set<Authority> authorities = new HashSet<>();
+//        authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+//        newUser.setAuthorities(authorities);
         if (userDTO.getRoles() != null) {
             Set<Role> roles = userDTO.getRoles().stream()
                 .map(roleRepository::findRoleById)
@@ -182,14 +188,14 @@ public class UserService {
                 .collect(Collectors.toSet());
             user.setRoles(roles);
         }
-        if (userDTO.getAuthorities() != null) {
-            Set<Authority> authorities = userDTO.getAuthorities().stream()
-                .map(authorityRepository::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toSet());
-            user.setAuthorities(authorities);
-        }
+//        if (userDTO.getAuthorities() != null) {
+//            Set<Authority> authorities = userDTO.getAuthorities().stream()
+//                .map(authorityRepository::findById)
+//                .filter(Optional::isPresent)
+//                .map(Optional::get)
+//                .collect(Collectors.toSet());
+//            user.setAuthorities(authorities);
+//        }
         userRepository.save(user);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
@@ -248,13 +254,13 @@ public class UserService {
                 user.setAddress(userDTO.getAddress());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
-                Set<Authority> managedAuthorities = user.getAuthorities();
-                managedAuthorities.clear();
-                userDTO.getAuthorities().stream()
-                    .map(authorityRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .forEach(managedAuthorities::add);
+//                Set<Authority> managedAuthorities = user.getAuthorities();
+//                managedAuthorities.clear();
+//                userDTO.getAuthorities().stream()
+//                    .map(authorityRepository::findById)
+//                    .filter(Optional::isPresent)
+//                    .map(Optional::get)
+//                    .forEach(managedAuthorities::add);
                 Set<Role> roles = user.getRoles();
                 roles.clear();
                 userDTO.getRoles().stream()

@@ -93,7 +93,7 @@ public class UserDTO {
     public UserDTO(User user) {
         this.id = user.getId();
         this.login = user.getLogin();
-        this.password = user.getPassword();
+        this.password = "888888";
         this.realName = user.getRealName();
         this.nickName = user.getNickName();
         this.firstName = user.getFirstName();

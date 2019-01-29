@@ -62,8 +62,15 @@ public class UserService {
     }
 
     public UserDTO findByLogin(String login) {
-        User user = userRepository.findByLogin(login);
         return new UserDTO(userRepository.findByLogin(login));
+    }
+
+    public UserDTO findById(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isPresent()) {
+            return new UserDTO(user.get());
+        }
+        return new UserDTO();
     }
 
     public Optional<User> activateRegistration(String key) {

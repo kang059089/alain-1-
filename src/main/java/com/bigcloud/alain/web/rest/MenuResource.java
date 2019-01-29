@@ -154,7 +154,7 @@ public class MenuResource {
     public ResponseEntity<Map> findMenuTreeList(Pageable pageable) {
         log.debug("获取所有菜单列表树形数据分页信息的pageable参数: {}", pageable);
         Page<MenuDTO> page = menuService.findMenuPage(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/menuTreeNode");
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/menuTreeList");
         Map map = new HashMap();
         map.put("list",page.getContent());
         map.put("total",page.getTotalElements());

@@ -26,6 +26,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -150,6 +152,32 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         userService.changePassword(passwordChangeDto.getCurrentPassword(), passwordChangeDto.getNewPassword());
+    }
+
+    /**
+     *  普通用户修改密码时的校验接口
+     * @param value 传入的参数（由currentPassword + 输入的当前密码组成）
+     * @return  返回结果（0：校验通过；1：当前密码与原密码不一致。；2：当前密码与正则表达式不匹配）
+     */
+    @GetMapping(path = {"/account/check-CurrentPassword/{value}"})
+    @Timed
+    public Integer checkCurrentPassword(@PathVariable String value) {
+        if (value != "currentPassword" || !"currentPassword".equals(value)) {
+            value = value.substring(15);
+            Pattern pt = Pattern.compile("^[a-zA-Z]\\w{5,17}$");
+            Matcher match = pt.matcher(value);
+            if (match.find()) {
+                if (userService.checkCurrentPassword(value)) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            } else {
+                return 2;
+            }
+        } else {
+            return 2;
+        }
     }
 
     /**

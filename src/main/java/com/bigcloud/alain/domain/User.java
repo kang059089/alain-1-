@@ -101,6 +101,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @Column(name = "password_state")
+    private Integer passwordState;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -120,9 +123,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "org_pid")
-    private Org orgParent;
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "bs_user_org",
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "org_id", referencedColumnName = "id")}
+    )
+    private Set<Org> orgs = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -245,12 +253,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.roles = roles;
     }
 
-    public Org getOrgParent() {
-        return orgParent;
+    public Set<Org> getOrgs() {
+        return orgs;
     }
 
-    public void setOrgParent(Org orgParent) {
-        this.orgParent = orgParent;
+    public void setOrgs(Set<Org> orgs) {
+        this.orgs = orgs;
     }
 
     public String getRealName() {
@@ -287,6 +295,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public boolean isActivated() {
         return activated;
+    }
+
+    public Integer getPasswordState() {
+        return passwordState;
+    }
+
+    public void setPasswordState(Integer passwordState) {
+        this.passwordState = passwordState;
     }
 
     @Override
@@ -327,9 +343,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activationKey='" + activationKey + '\'' +
             ", resetKey='" + resetKey + '\'' +
             ", resetDate=" + resetDate +
+            ", passwordState=" + passwordState +
             ", authorities=" + authorities +
             ", roles=" + roles +
-            ", orgParent=" + orgParent +
+            ", orgs=" + orgs +
             '}';
     }
 }

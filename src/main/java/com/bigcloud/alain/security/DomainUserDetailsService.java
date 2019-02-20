@@ -1,5 +1,6 @@
 package com.bigcloud.alain.security;
 
+import com.bigcloud.alain.domain.Role;
 import com.bigcloud.alain.domain.User;
 import com.bigcloud.alain.repository.UserRepository;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
@@ -52,6 +53,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         if (!user.getActivated()) {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
+        Set<Role> roles = user.getRoles();
         List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
             .map(authority -> new SimpleGrantedAuthority(authority.getName()))
             .collect(Collectors.toList());

@@ -64,7 +64,6 @@ public class TokenProvider {
         String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.joining(","));
-
         long now = (new Date()).getTime();
         Date validity;
         if (rememberMe) {
@@ -86,6 +85,8 @@ public class TokenProvider {
             .setSigningKey(key)
             .parseClaimsJws(token)
             .getBody();
+
+        String[] split = claims.get(AUTHORITIES_KEY).toString().split(",");
 
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))

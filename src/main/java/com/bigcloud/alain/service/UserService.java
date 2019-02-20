@@ -2,14 +2,17 @@ package com.bigcloud.alain.service;
 
 import com.bigcloud.alain.config.Constants;
 import com.bigcloud.alain.domain.Authority;
+import com.bigcloud.alain.domain.Org;
 import com.bigcloud.alain.domain.Role;
 import com.bigcloud.alain.domain.User;
 import com.bigcloud.alain.repository.AuthorityRepository;
+import com.bigcloud.alain.repository.OrgRepository;
 import com.bigcloud.alain.repository.RoleRepository;
 import com.bigcloud.alain.repository.UserRepository;
 import com.bigcloud.alain.security.AuthoritiesConstants;
 import com.bigcloud.alain.security.SecurityUtils;
 import com.bigcloud.alain.service.dto.UserDTO;
+import com.bigcloud.alain.service.util.HelperUtil;
 import com.bigcloud.alain.service.util.RandomUtil;
 import com.bigcloud.alain.web.rest.errors.*;
 
@@ -45,15 +48,18 @@ public class UserService {
 
     private final RoleRepository roleRepository;
 
+    private final OrgRepository orgRepository;
+
     private final CacheManager cacheManager;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder,
                        AuthorityRepository authorityRepository, RoleRepository roleRepository,
-                       CacheManager cacheManager) {
+                       OrgRepository orgRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.roleRepository = roleRepository;
+        this.orgRepository = orgRepository;
         this.cacheManager = cacheManager;
     }
 
@@ -125,6 +131,8 @@ public class UserService {
         });
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
+        Integer passwordState = HelperUtil.passwordState(password);
+        newUser.setPasswordState(passwordState);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
@@ -149,6 +157,14 @@ public class UserService {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
             newUser.setRoles(roles);
+        }
+        if (userDTO.getOrgs() != null) {
+            Set<Org> orgs = userDTO.getOrgs().stream()
+                .map(orgRepository::findOrgById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+            newUser.setOrgs(orgs);
         }
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
@@ -184,6 +200,8 @@ public class UserService {
         }
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
+        Integer passwordState = HelperUtil.passwordState(RandomUtil.generatePassword());
+        user.setPasswordState(passwordState);
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(userDTO.isActivated());
@@ -194,6 +212,14 @@ public class UserService {
                 .map(Optional::get)
                 .collect(Collectors.toSet());
             user.setRoles(roles);
+        }
+        if (userDTO.getOrgs() != null) {
+            Set<Org> orgs = userDTO.getOrgs().stream()
+                .map(orgRepository::findOrgById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+            user.setOrgs(orgs);
         }
 //        if (userDTO.getAuthorities() != null) {
 //            Set<Authority> authorities = userDTO.getAuthorities().stream()
@@ -249,6 +275,8 @@ public class UserService {
                 if (!"888888".equals(userDTO.getPassword())) {
                     String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
                     user.setPassword(encryptedPassword);
+                    Integer passwordState = HelperUtil.passwordState(userDTO.getPassword());
+                    user.setPasswordState(passwordState);
                 }
                 user.setRealName(userDTO.getRealName());
                 user.setNickName(userDTO.getNickName());
@@ -269,12 +297,19 @@ public class UserService {
 //                    .map(Optional::get)
 //                    .forEach(managedAuthorities::add);
                 Set<Role> roles = user.getRoles();
+                Set<Org> orgs = user.getOrgs();
                 roles.clear();
+                orgs.clear();
                 userDTO.getRoles().stream()
                     .map(roleRepository::findById)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .forEach(roles::add);
+                userDTO.getOrgs().stream()
+                    .map(orgRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .forEach(orgs::add);
                 this.clearUserCaches(user);
                 log.debug("Changed Information for User: {}", user);
                 return user;
@@ -300,9 +335,26 @@ public class UserService {
                 }
                 String encryptedPassword = passwordEncoder.encode(newPassword);
                 user.setPassword(encryptedPassword);
+                Integer passwordState = HelperUtil.passwordState(newPassword);
+                user.setPasswordState(passwordState);
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
+    }
+
+    public Boolean checkCurrentPassword(String currentPassword) {
+        final boolean[] b = new boolean[1];
+        SecurityUtils.getCurrentUserLogin()
+            .flatMap(userRepository::findOneByLogin)
+            .ifPresent(user -> {
+                String currentEncryptedPassword = user.getPassword();
+                if (!passwordEncoder.matches(currentPassword, currentEncryptedPassword)) {
+                    b[0] = false;
+                } else {
+                    b[0] = true;
+                }
+            });
+        return b[0];
     }
 
     @Transactional(readOnly = true)

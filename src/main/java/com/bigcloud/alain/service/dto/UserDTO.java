@@ -3,6 +3,7 @@ package com.bigcloud.alain.service.dto;
 import com.bigcloud.alain.config.Constants;
 
 import com.bigcloud.alain.domain.Authority;
+import com.bigcloud.alain.domain.Org;
 import com.bigcloud.alain.domain.Role;
 import com.bigcloud.alain.domain.User;
 
@@ -76,7 +77,11 @@ public class UserDTO {
 
     private Set<Long> roles;
 
+    private Set<Long> orgs;
+
     private Set<RoleDTO> roleDTOS;
+
+    private Integer passwordState;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -94,6 +99,7 @@ public class UserDTO {
         this.id = user.getId();
         this.login = user.getLogin();
         this.password = "888888";
+        this.passwordState = user.getPasswordState();
         this.realName = user.getRealName();
         this.nickName = user.getNickName();
         this.firstName = user.getFirstName();
@@ -112,10 +118,12 @@ public class UserDTO {
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
-        if (null != user.getOrgParent()) this.orgPid = user.getOrgParent().getId() + "";
         if (!user.getRoles().isEmpty()) {
             this.roles = user.getRoles().stream().map(Role::getId).collect(Collectors.toSet());
             this.roleDTOS = user.getRoles().stream().map(RoleDTO::new).collect(Collectors.toSet());
+        }
+        if (!user.getOrgs().isEmpty()) {
+            this.orgs = user.getOrgs().stream().map(Org::getId).collect(Collectors.toSet());
         }
     }
 
@@ -295,12 +303,28 @@ public class UserDTO {
         this.roles = roles;
     }
 
+    public Set<Long> getOrgs() {
+        return orgs;
+    }
+
+    public void setOrgs(Set<Long> orgs) {
+        this.orgs = orgs;
+    }
+
     public Set<RoleDTO> getRoleDTOS() {
         return roleDTOS;
     }
 
     public void setRoleDTOS(Set<RoleDTO> roleDTOS) {
         this.roleDTOS = roleDTOS;
+    }
+
+    public Integer getPasswordState() {
+        return passwordState;
+    }
+
+    public void setPasswordState(Integer passwordState) {
+        this.passwordState = passwordState;
     }
 
     @Override
@@ -328,7 +352,9 @@ public class UserDTO {
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
             ", roles=" + roles +
+            ", orgs=" + orgs +
             ", roleDTOS=" + roleDTOS +
+            ", passwordState=" + passwordState +
             '}';
     }
 }

@@ -40,14 +40,14 @@ public class Role extends AbstractAuditingEntity implements Serializable {
     @JoinColumn(name = "pid")
     private Role parent;
 
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "bs_user_role",
-        joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}
-    )
-    private Set<User> users = new HashSet<>();
+//    @JsonIgnore
+//    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+//    @JoinTable(
+//        name = "bs_user_role",
+//        joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+//        inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}
+//    )
+//    private Set<User> users = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -120,13 +120,13 @@ public class Role extends AbstractAuditingEntity implements Serializable {
         this.parent = role;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -158,7 +158,6 @@ public class Role extends AbstractAuditingEntity implements Serializable {
             ", acl='" + acl + '\'' +
             ", roles=" + roles +
             ", parent=" + parent +
-            ", users=" + users +
             '}';
     }
 }

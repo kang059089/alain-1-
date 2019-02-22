@@ -86,7 +86,7 @@ public class UserJWTController {
         private String token;
 
         UserToken(User user, String jwt) {
-            this.user = new UserDTO(user.getLogin(), user.getEmail(), user.getImageUrl(), user.getLastName(), user.getActivated());
+            this.user = new UserDTO(user.getLogin(), user.getEmail(), user.getImageUrl(), user.getNickName(), user.getActivated());
             this.token = jwt;
         }
 

@@ -87,11 +87,11 @@ public class UserDTO {
         // Empty constructor needed for Jackson.
     }
 
-    public UserDTO(String login, String email, String imageUrl, String lastName, Boolean activated) {
+    public UserDTO(String login, String email, String imageUrl, String nickName, Boolean activated) {
         this.login = login;
         this.email = email;
         this.imageUrl = imageUrl;
-        this.lastName = lastName;
+        this.nickName = nickName;
         this.activated = activated;
     }
 

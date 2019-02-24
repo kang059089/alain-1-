@@ -155,6 +155,20 @@ public class AccountResource {
     }
 
     /**
+     * 修改绑定的手机号码
+     * @param newPhone 需绑定的手机号码
+     * @param captcha 传入的短信验证码
+     */
+    @PostMapping(path = "/account/change-phone/{newPhone}/{captcha}")
+    @Timed
+    public String changePhone(@PathVariable String newPhone, @PathVariable String captcha) {
+        log.debug("需绑定的手机号码为: {}，短信验证码为：{}", newPhone, captcha);
+        // 绑定新手机号码（未测试）
+        String msg = userService.changePhone(newPhone, captcha);
+        return msg;
+    }
+
+    /**
      *  普通用户修改密码时的校验接口
      * @param value 传入的参数（由currentPassword + 输入的当前密码组成）
      * @return  返回结果（0：校验通过；1：当前密码与原密码不一致。；2：当前密码与正则表达式不匹配）

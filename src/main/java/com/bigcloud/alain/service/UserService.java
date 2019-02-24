@@ -1,5 +1,6 @@
 package com.bigcloud.alain.service;
 
+import com.aliyuncs.CommonResponse;
 import com.bigcloud.alain.config.Constants;
 import com.bigcloud.alain.domain.Authority;
 import com.bigcloud.alain.domain.Org;
@@ -14,6 +15,7 @@ import com.bigcloud.alain.security.SecurityUtils;
 import com.bigcloud.alain.service.dto.UserDTO;
 import com.bigcloud.alain.service.util.HelperUtil;
 import com.bigcloud.alain.service.util.RandomUtil;
+import com.bigcloud.alain.service.util.SendSmsUtil;
 import com.bigcloud.alain.web.rest.errors.*;
 
 import org.slf4j.Logger;
@@ -26,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -340,6 +343,28 @@ public class UserService {
                 this.clearUserCaches(user);
                 log.debug("Changed password for User: {}", user);
             });
+    }
+
+    public String changePhone(String newPhone, String captcha) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String nowDate = sdf.format(new Date());
+        // 调用阿里云短信服务中查看短信发送记录和发送状态方法(未测试)
+        CommonResponse response = SendSmsUtil.querySendDetails(newPhone, nowDate, captcha);
+        String data = response.getData();
+        // 判断输入的短信验证码与发送的是否一致
+        boolean b  = true;
+        if (b) {
+            SecurityUtils.getCurrentUserLogin()
+                .flatMap(userRepository::findOneByLogin)
+                .ifPresent(user -> {
+                    String telephone = user.getTelephone();
+                    user.setTelephone(newPhone);
+                    this.clearUserCaches(user);
+                    log.debug("Changed phone for User: {}", user);
+                });
+            return "绑定手机号码成功";
+        }
+        return "绑定手机号码失败";
     }
 
     public Boolean checkCurrentPassword(String currentPassword) {

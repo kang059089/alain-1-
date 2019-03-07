@@ -350,7 +350,7 @@ public class UserService {
         String nowDate = sdf.format(new Date());
         // 调用阿里云短信服务中查看短信发送记录和发送状态方法(未测试)
         CommonResponse response = SendSmsUtil.querySendDetails(newPhone, nowDate, captcha);
-        String data = response.getData();
+//        String data = response.getData();
         // 判断输入的短信验证码与发送的是否一致
         boolean b  = true;
         if (b) {

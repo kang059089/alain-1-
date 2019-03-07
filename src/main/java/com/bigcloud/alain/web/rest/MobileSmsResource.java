@@ -27,7 +27,7 @@ public class MobileSmsResource {
             .valueOf(new Random().nextInt(899999) + 100000);
         // 调用阿里云短信服务向用户发送验证码（未测试）
         CommonResponse response = SendSmsUtil.sendCode(newPhone, captcha);
-        String data = response.getData();
+//        String data = response.getData();
         // 返回短信调用状态
         return "发送短信成功";
     }

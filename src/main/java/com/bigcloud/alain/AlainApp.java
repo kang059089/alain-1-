@@ -1,5 +1,6 @@
 package com.bigcloud.alain;
 
+import com.bigcloud.alain.config.AliCommonProperties;
 import com.bigcloud.alain.config.ApplicationProperties;
 import com.bigcloud.alain.config.DefaultProfileUtil;
 
@@ -21,7 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @SpringBootApplication
-@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class, AliCommonProperties.class})
 public class AlainApp {
 
     private static final Logger log = LoggerFactory.getLogger(AlainApp.class);

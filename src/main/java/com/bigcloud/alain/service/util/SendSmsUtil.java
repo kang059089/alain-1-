@@ -8,13 +8,30 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.bigcloud.alain.config.AliCommonProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 // 阿里云发送短信工具类
+@Component
 public class SendSmsUtil {
 
-    // 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
-    private static String accessKeyId = "yourAccessKeyId";
-    private static String accessKeySecret = "yourAccessKeySecret";
+    @Autowired
+    private AliCommonProperties properties;
+
+    private static SendSmsUtil sendSmsUtil;
+
+    /**
+     * PostContruct是spring框架的注解，在方法上加该注解会在项目启动的时候执行该方法，也可以理解为在spring容器初始化的时候执行该方法。
+     */
+    @PostConstruct
+    public void init() {
+        sendSmsUtil = this;
+        sendSmsUtil.properties= this.properties;
+    }
 
     /**
      * 发送短信验证码
@@ -26,8 +43,8 @@ public class SendSmsUtil {
         // 创建DefaultAcsClient实例并初始化
         DefaultProfile profile = DefaultProfile.getProfile(
             "default",          // 地域ID
-            accessKeyId,      // RAM账号的AccessKey ID
-            accessKeySecret); // RAM账号Access Key Secret
+            sendSmsUtil.properties.getAccessKeyId(),      // RAM账号的AccessKey ID
+            sendSmsUtil.properties.getAccessKeySecret()); // RAM账号Access Key Secret
         IAcsClient client = new DefaultAcsClient(profile);
 
         // 组装请求对象
@@ -69,8 +86,8 @@ public class SendSmsUtil {
         // 创建DefaultAcsClient实例并初始化
         DefaultProfile profile = DefaultProfile.getProfile(
             "default",          // 地域ID
-            accessKeyId,      // RAM账号的AccessKey ID
-            accessKeySecret); // RAM账号Access Key Secret
+            sendSmsUtil.properties.getAccessKeyId(),      // RAM账号的AccessKey ID
+            sendSmsUtil.properties.getAccessKeySecret()); // RAM账号Access Key Secret
         IAcsClient client = new DefaultAcsClient(profile);
 
         // 组装请求对象

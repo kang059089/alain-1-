@@ -32,6 +32,10 @@ public class MailService {
 
     private static final String BASE_URL = "baseUrl";
 
+    private static final String CAPTCHA = "captcha";
+
+    private static final String EMAIL = "email";
+
     private final JHipsterProperties jHipsterProperties;
 
     private final JavaMailSender javaMailSender;
@@ -101,5 +105,23 @@ public class MailService {
     public void sendPasswordResetMail(User user) {
         log.debug("Sending password reset email to '{}'", user.getEmail());
         sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
+    }
+
+    @Async
+    public void sendEmailFromTemplate(String captcha, String email, String templateName, String titleKey) {
+        Locale locale = Locale.forLanguageTag("zh-cn");
+        Context context = new Context(locale);
+        context.setVariable(CAPTCHA, captcha);
+        context.setVariable(EMAIL, email);
+        context.setVariable(BASE_URL, jHipsterProperties.getMail().getBaseUrl());
+        String content = templateEngine.process(templateName, context);
+        String subject = messageSource.getMessage(titleKey, null, locale);
+        sendEmail(email, subject, content, false, true);
+    }
+
+    @Async
+    public void sendCaptchaEmail(String email, String captcha) {
+        log.debug("验证码为：{},接收验证码的邮箱为： '{}'", captcha, email);
+        sendEmailFromTemplate(captcha, email, "mail/captchaEmail", "email.captcha.title");
     }
 }

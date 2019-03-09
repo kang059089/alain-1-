@@ -161,11 +161,24 @@ public class AccountResource {
      */
     @PostMapping(path = "/account/change-phone/{newPhone}/{captcha}")
     @Timed
-    public String changePhone(@PathVariable String newPhone, @PathVariable String captcha) {
+    public void changePhone(@PathVariable String newPhone, @PathVariable String captcha) {
         log.debug("需绑定的手机号码为: {}，短信验证码为：{}", newPhone, captcha);
         // 绑定新手机号码（未测试）
-        String msg = userService.changePhone(newPhone, captcha);
-        return msg;
+        userService.changePhone(newPhone, captcha);
+    }
+
+    /**
+     *  修改绑定的邮箱
+     * @param newEmail 需绑定的邮箱
+     * @param captcha 传入的邮箱验证码
+     * @return
+     */
+    @PostMapping(path = "/account/change-email/{newEmail}/{captcha}")
+    @Timed
+    public void changeEmail(@PathVariable String newEmail, @PathVariable String captcha) {
+        log.debug("需绑定的邮箱为: {}，邮箱验证码为：{}", newEmail, captcha);
+        // 绑定新邮箱
+        userService.changeEmail(newEmail, captcha);
     }
 
     /**

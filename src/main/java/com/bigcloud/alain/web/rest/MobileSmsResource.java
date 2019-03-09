@@ -18,6 +18,11 @@ public class MobileSmsResource {
 
     private final Logger log = LoggerFactory.getLogger(MobileSmsResource.class);
 
+    /**
+     *  生成验证码调用阿里云短信服务接口发送短信
+     * @param newPhone 需要绑定的新手机号码
+     * @return 返回短信调用状态
+     */
     @GetMapping("/sendSms/{newPhone}")
     @Timed
     public String sendSms(@PathVariable String newPhone) {

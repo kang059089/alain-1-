@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{email.captcha.title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+    <style>
+        .email-body {
+            color: #40485B;
+            font-size: 14px;
+            font-family: -apple-system, "Helvetica Neue", Helvetica, "Nimbus Sans L", "Segoe UI", Arial, "Liberation Sans", "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
+            background: #f8f8f8;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            margin: 0 auto;
+        }
+        .logo {
+            text-align: center;
+            background-color: bisque;
+        }
+        .body img {
+            vertical-align: middle;
+        }
+        .panel {
+            background: #fff;
+            border: 1px solid #E3E9ED;
+            margin-bottom: 10px;
+        }
+        .panel-header {
+            font-size: 18px;
+            line-height: 30px;
+            padding: 10px 20px;
+            background: #fcfcfc;
+            border-bottom: 1px solid #E3E9ED;
+        }
+        .panel-body {
+            padding: 20px;
+        }
+        .captcha-body {
+            text-align: center;
+            background-color: cornflowerblue;
+            width: 30%;
+            height: 50px;
+            margin: 0 auto;
+        }
+        .captcha-a {
+            font-size: 20px;
+            text-align: center;
+            color: unset;
+            line-height: 50px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-body">
+        <div class="container">
+            <div class="logo">
+                <img height="40" src="http://localhost:4200/assets/logo-color.svg">&nbsp;&nbsp;&nbsp;&nbsp;
+                <a style="font-size: 20px; color: unset; line-height: 45px; text-decoration: none;">Alain</a>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    邮箱绑定
+                </div>
+                <div class="panel-body">
+                    <p>您好
+                        <a th:href="${email}" th:text="${email}" style="color: #FE7300;" rel="noopener" target="_blank"></a>！
+                    </p>
+                    <p th:text="#{email.captcha.text1}"></p>
+                    <div class="captcha-body">
+                        <a th:text="${captcha}" class="captcha-a"></a>
+                    </div>
+                    <p>
+                        <span th:text="#{email.captcha.text2}"></span>
+                        <br/>
+                        <em th:text="#{email.signature}"></em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

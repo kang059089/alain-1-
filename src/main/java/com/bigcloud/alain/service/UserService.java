@@ -20,6 +20,7 @@ import com.bigcloud.alain.web.rest.errors.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +34,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.bigcloud.alain.web.rest.EMailResource.EMAIL_CAPTCHA_CACHE;
 
 /**
  * Service class for managing users.
@@ -345,7 +348,7 @@ public class UserService {
             });
     }
 
-    public String changePhone(String newPhone, String captcha) {
+    public void changePhone(String newPhone, String captcha) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String nowDate = sdf.format(new Date());
         // 调用阿里云短信服务中查看短信发送记录和发送状态方法(未测试)
@@ -357,14 +360,25 @@ public class UserService {
             SecurityUtils.getCurrentUserLogin()
                 .flatMap(userRepository::findOneByLogin)
                 .ifPresent(user -> {
-                    String telephone = user.getTelephone();
                     user.setTelephone(newPhone);
                     this.clearUserCaches(user);
                     log.debug("Changed phone for User: {}", user);
                 });
-            return "绑定手机号码成功";
         }
-        return "绑定手机号码失败";
+    }
+
+    public void changeEmail(String newEmail, String captcha) {
+        // 判断输入的邮箱验证码与缓存中发送的是否一致
+        Cache cache = cacheManager.getCache(EMAIL_CAPTCHA_CACHE);
+        if (captcha == cache.get("emailCaptcha", String.class) || captcha.equals(cache.get("emailCaptcha", String.class))) {
+            SecurityUtils.getCurrentUserLogin()
+                .flatMap(userRepository::findOneByLogin)
+                .ifPresent(user -> {
+                    user.setEmail(newEmail);
+                    this.clearUserCaches(user);
+                    log.debug("Changed email for User: {}", user);
+                });
+        }
     }
 
     public Boolean checkCurrentPassword(String currentPassword) {
@@ -432,5 +446,6 @@ public class UserService {
     private void clearUserCaches(User user) {
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
         Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
+        Objects.requireNonNull(cacheManager.getCache(EMAIL_CAPTCHA_CACHE)).evict("emailCaptcha");
     }
 }

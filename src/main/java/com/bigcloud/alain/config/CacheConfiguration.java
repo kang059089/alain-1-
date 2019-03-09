@@ -50,6 +50,7 @@ public class CacheConfiguration {
             cm.createCache(com.bigcloud.alain.domain.DictType.class.getName(), jcacheConfiguration);
             cm.createCache(com.bigcloud.alain.domain.Role.class.getName(), jcacheConfiguration);
             cm.createCache(com.bigcloud.alain.domain.Role.class.getName() + ".roles", jcacheConfiguration);
+            cm.createCache(com.bigcloud.alain.web.rest.EMailResource.EMAIL_CAPTCHA_CACHE, jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

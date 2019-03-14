@@ -12,6 +12,7 @@ public class RoleDTO {
     private String name;
     private String pid;
     private String acl;
+    private Integer sort;
     private List<RoleDTO> children;
     private String createName;
     private Instant createDate;
@@ -24,6 +25,7 @@ public class RoleDTO {
         this.id = role.getId() + "";
         this.name = role.getName();
         this.acl = role.getAcl();
+        this.sort = role.getSort();
         if (null != role.getParent()) {
             this.pid = role.getParent().getId() + "";
         }
@@ -66,6 +68,14 @@ public class RoleDTO {
 
     public void setAcl(String acl) {
         this.acl = acl;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public List<RoleDTO> getChildren() {

@@ -9,6 +9,7 @@ public class RoleTreeDTO extends BaseTreeDTO {
     public RoleTreeDTO(Role role) {
         this.key = role.getId() + "";
         this.acl = role.getAcl();
+        this.sort = role.getSort();
         if (null != role.getParent()) this.pid = role.getParent().getId() + "";
         this.title = role.getName();
         this.expanded = true; // 树结构默认展开

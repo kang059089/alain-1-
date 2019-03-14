@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    @Query(value = "SELECT * FROM bs_role where pid is null", nativeQuery = true)
+    @Query(value = "SELECT * FROM bs_role where pid is null order by jhi_sort", nativeQuery = true)
     List<Role> findRole();
 
     @Query(value = "SELECT * FROM bs_role where id = ?1", nativeQuery = true)

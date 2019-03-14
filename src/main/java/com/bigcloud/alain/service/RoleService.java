@@ -24,6 +24,7 @@ public class RoleService {
         Role role = new Role();
         role.setId(roleDTO.getId() != null ? Long.valueOf(roleDTO.getId()) : null);
         role.setAcl(roleDTO.getAcl() != null ? roleDTO.getAcl() : null);
+        role.setSort(roleDTO.getSort() != null ? roleDTO.getSort() : null);
         role.setName(roleDTO.getName() != null ? roleDTO.getName() : null);
         if (roleDTO.getPid() != null) {
             roleRepository.findRoleById(Long.valueOf(roleDTO.getPid())).ifPresent((value) -> {

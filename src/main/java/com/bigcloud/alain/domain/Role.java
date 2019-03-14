@@ -32,6 +32,9 @@ public class Role extends AbstractAuditingEntity implements Serializable {
     @Column(name = "acl")
     private String acl;
 
+    @Column(name = "jhi_sort")
+    private Integer sort;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
     private Set<Role> roles = new HashSet<>();
@@ -120,7 +123,15 @@ public class Role extends AbstractAuditingEntity implements Serializable {
         this.parent = role;
     }
 
-//    public Set<User> getUsers() {
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    //    public Set<User> getUsers() {
 //        return users;
 //    }
 //
@@ -156,6 +167,7 @@ public class Role extends AbstractAuditingEntity implements Serializable {
             "id=" + id +
             ", name='" + name + '\'' +
             ", acl='" + acl + '\'' +
+            ", sort=" + sort +
             ", roles=" + roles +
             ", parent=" + parent +
             '}';

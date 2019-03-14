@@ -8,6 +8,7 @@ public class BaseTreeDTO {
     public String pid; // 父节点id
     public String title; // 节点名称
     public String acl; // 权限控制
+    public Integer sort; // 顺序
     public Boolean isLeaf; // 是否是叶子节点（true：叶子节点；false：非叶子节点）
     public Boolean expanded; // 是否展开树结构（true：展开；false：不展开）
     public String description; // 描述
